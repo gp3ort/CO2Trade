@@ -3,14 +3,13 @@ using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using CO2Trade_Login_Register.Data;
+using CO2Trade_Login_Register.DTO;
+using CO2Trade_Login_Register.DTO.RequestDTO;
+using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Enum;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Repository.IRepository;
-using MagicVilla_VillaAPI.Dto;
-using MagicVilla_VillaAPI.Dto.RequestDTO;
-using MagicVilla_VillaAPI.Dto.ResponseDTO;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CO2Trade_Login_Register.Repository;
@@ -82,13 +81,13 @@ public class EntityUserRepository : IEntityUserRepository
         return loginResponseDto;
     }
 
-    public async Task<EntityUserDTO> Register(RegistrationRequestDTO registrationRequestDTO)
+    public async Task<RegistrationResponseDTO> Register(RegistrationRequestDTO registrationRequestDTO)
     {
         EntityUser user = new()
         {
             UserName = registrationRequestDTO.UserName,
             Email = registrationRequestDTO.UserName,
-            IdEntityType = registrationRequestDTO.EntityType,
+            IdEntityType = GetEntityType(registrationRequestDTO.EntityType),
             BusinessName = registrationRequestDTO.Name,
             NormalizedEmail = registrationRequestDTO.UserName.ToUpper(),
             PhoneNumber = registrationRequestDTO.PhoneNumber,
@@ -96,13 +95,14 @@ public class EntityUserRepository : IEntityUserRepository
             Address = registrationRequestDTO.Address,
             IdRol = registrationRequestDTO.IdRol,
         };
+
         try
         {
             var result = await _userManager.CreateAsync(user, registrationRequestDTO.Password);
             
             if (result.Succeeded)
             {
-                Roles rol = getRol(registrationRequestDTO.IdRol);
+                Roles rol = GetRol(registrationRequestDTO.IdRol);
                 if (!_roleManager.RoleExistsAsync(rol.ToString()).GetAwaiter().GetResult())
                 {
                     await _roleManager.CreateAsync(new IdentityRole(rol.ToString()));
@@ -110,7 +110,11 @@ public class EntityUserRepository : IEntityUserRepository
                 await _userManager.AddToRoleAsync(user, rol.ToString());
                 var userToReturn =
                     _db.EntityUsers.FirstOrDefault(u => u.UserName == registrationRequestDTO.UserName);
-                return _mapper.Map<EntityUserDTO>(userToReturn);
+                RegistrationResponseDTO responseDto = new RegistrationResponseDTO
+                {
+                    EntityUser = _mapper.Map<EntityUserDTO>(userToReturn)
+                };
+                return responseDto;
             }
         }
         catch (Exception e)
@@ -118,10 +122,10 @@ public class EntityUserRepository : IEntityUserRepository
             
         }
 
-        return new EntityUserDTO();
+        return new RegistrationResponseDTO();
     }
 
-    private Roles getRol(int id)
+    private Roles GetRol(int id)
     {
         switch (id)
         {
@@ -133,6 +137,19 @@ public class EntityUserRepository : IEntityUserRepository
                 return Roles.ORGANIZATION;
             default:
                 return Roles.INDIVIDUAL_CUSTOMER;
+        }
+    }
+
+    private int GetEntityType(int id)
+    {
+        switch (id)
+        {
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+            default:
+                return 1;
         }
     }
 }

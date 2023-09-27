@@ -12,7 +12,7 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
     }
     
     public DbSet<EntityUser> EntityUsers { get; set; }
-    public DbSet<Rol> Rols { get; set; }
+    public DbSet<Rol> Roles { get; set; }
     public DbSet<EntityType> EntityTypes { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,6 +30,25 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
                     Id = 2,
                     Name = Enum.Roles.INDIVIDUAL_CUSTOMER.ToString(),
                     Description = "Individual customer rol"
+                },
+                new Rol
+                {
+                    Id = 3,
+                    Name = Enum.Roles.ORGANIZATION.ToString(),
+                    Description = "Organization rol"
+                }
+            );
+
+            modelBuilder.Entity<EntityType>().HasData(
+                new EntityType
+                {
+                    Id = 1,
+                    Description = "Individual Person"
+                },
+                new EntityType
+                {
+                    Id = 2,
+                    Description = "Legal Entity"
                 }
             );
         }

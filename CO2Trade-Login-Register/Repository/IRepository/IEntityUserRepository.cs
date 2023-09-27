@@ -1,6 +1,5 @@
-using MagicVilla_VillaAPI.Dto;
-using MagicVilla_VillaAPI.Dto.RequestDTO;
-using MagicVilla_VillaAPI.Dto.ResponseDTO;
+using CO2Trade_Login_Register.DTO.RequestDTO;
+using CO2Trade_Login_Register.DTO.ResponseDTO;
 
 namespace CO2Trade_Login_Register.Repository.IRepository;
 
@@ -8,5 +7,5 @@ public interface IEntityUserRepository
 {
     bool IsUniqueEntityUser(string username);
     Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
-    Task<EntityUserDTO> Register(RegistrationRequestDTO registrationRequestDTO);
+    Task<RegistrationResponseDTO> Register(RegistrationRequestDTO registrationRequestDTO);
 }

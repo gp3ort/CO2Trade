@@ -1,4 +1,4 @@
-namespace MagicVilla_VillaAPI.Dto;
+namespace CO2Trade_Login_Register.DTO;
 
 public class EntityUserDTO
 {

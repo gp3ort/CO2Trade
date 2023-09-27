@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace MagicVilla_VillaAPI.Models;
+namespace CO2Trade_Login_Register.Models;
 
 public class APIResponse
 {

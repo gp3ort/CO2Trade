@@ -1,7 +1,7 @@
 using System.Net;
+using CO2Trade_Login_Register.DTO.RequestDTO;
+using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Repository.IRepository;
-using MagicVilla_VillaAPI.Dto.RequestDTO;
-using MagicVilla_VillaAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CO2Trade_Login_Register.Controllers;
@@ -57,6 +57,7 @@ public class EntityUsersController : ControllerBase
         }
         _response.StatusCode = HttpStatusCode.OK;
         _response.IsSuccess = true;
+        _response.Result = user;
         return Ok(_response);
     }
 }
