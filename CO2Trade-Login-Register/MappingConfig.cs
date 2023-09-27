@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using CO2Trade_Login_Register.Models;
+using CO2Trade_Login_Register.Models.EntitiesUser;
 using MagicVilla_VillaAPI.Dto;
-using MagicVilla_VillaAPI.Dto.RequestDTO;
-using MagicVilla_VillaAPI.Dto.ResponseDTO;
-using MagicVilla_VillaAPI.Models;
 
 namespace MagicVilla_VillaAPI
 {
