@@ -89,6 +89,9 @@ public class EntityUserRepository : IEntityUserRepository
             EntityType = registrationRequestDTO.EntityType,
             BusinessName = registrationRequestDTO.Name,
             NormalizedEmail = registrationRequestDTO.UserName.ToUpper(),
+            PhoneNumber = registrationRequestDTO.PhoneNumber,
+            Description = registrationRequestDTO.Description,
+            Address = registrationRequestDTO.Address
         };
         try
         {
