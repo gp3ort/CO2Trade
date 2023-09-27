@@ -16,7 +16,7 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<UserDTO> Register(RegistrationRequestDTO registerationRequestDTO)
+    public Task<EntityDTO> Register(RegistrationRequestDTO registerationRequestDTO)
     {
         throw new NotImplementedException();
     }
