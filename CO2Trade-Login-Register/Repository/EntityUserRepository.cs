@@ -10,7 +10,9 @@ using CO2Trade_Login_Register.Enum;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Extensions;
 
 namespace CO2Trade_Login_Register.Repository;
 
@@ -44,7 +46,7 @@ public class EntityUserRepository : IEntityUserRepository
 
     public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
     {
-        var entityUser = _db.EntityUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDTO.UserName.ToLower());
+        var entityUser = _db.EntityUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDTO.BusinessName.ToLower());
         bool isValid = await _userManager.CheckPasswordAsync(entityUser, loginRequestDTO.Password);
         if (entityUser == null || isValid == false)
         {
@@ -83,17 +85,21 @@ public class EntityUserRepository : IEntityUserRepository
 
     public async Task<RegistrationResponseDTO> Register(RegistrationRequestDTO registrationRequestDTO)
     {
+        int idEntityType = GetEntityType(registrationRequestDTO.EntityType);
+        int rolId = GetRol(registrationRequestDTO.IdRol);
         EntityUser user = new()
         {
-            UserName = registrationRequestDTO.UserName,
-            Email = registrationRequestDTO.UserName,
-            IdEntityType = GetEntityType(registrationRequestDTO.EntityType),
-            BusinessName = registrationRequestDTO.Name,
-            NormalizedEmail = registrationRequestDTO.UserName.ToUpper(),
+            UserName = registrationRequestDTO.BusinessName,
+            Email = registrationRequestDTO.Email,
+            IdEntityType = idEntityType,
+            EntityType = await _db.EntityTypes.FirstOrDefaultAsync(e => e.Id == idEntityType),
+            BusinessName = registrationRequestDTO.BusinessName,
+            NormalizedEmail = registrationRequestDTO.Email.ToUpper(),
             PhoneNumber = registrationRequestDTO.PhoneNumber,
             Description = registrationRequestDTO.Description,
             Address = registrationRequestDTO.Address,
-            IdRol = registrationRequestDTO.IdRol,
+            IdRol = rolId,
+            Rol = await _db.Roles.FirstOrDefaultAsync(r => r.Id == registrationRequestDTO.IdRol)
         };
 
         try
@@ -102,14 +108,14 @@ public class EntityUserRepository : IEntityUserRepository
             
             if (result.Succeeded)
             {
-                Roles rol = GetRol(registrationRequestDTO.IdRol);
-                if (!_roleManager.RoleExistsAsync(rol.ToString()).GetAwaiter().GetResult())
+                if (!_roleManager.RoleExistsAsync(user.Rol.Name).GetAwaiter().GetResult())
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(rol.ToString()));
+                    await _roleManager.CreateAsync(new IdentityRole(user.Rol.Name));
                 }
-                await _userManager.AddToRoleAsync(user, rol.ToString());
+
+                await _userManager.AddToRoleAsync(user, user.Rol.Name);
                 var userToReturn =
-                    _db.EntityUsers.FirstOrDefault(u => u.UserName == registrationRequestDTO.UserName);
+                    _db.EntityUsers.FirstOrDefault(u => u.UserName == registrationRequestDTO.BusinessName);
                 RegistrationResponseDTO responseDto = new RegistrationResponseDTO
                 {
                     EntityUser = _mapper.Map<EntityUserDTO>(userToReturn)
@@ -125,18 +131,18 @@ public class EntityUserRepository : IEntityUserRepository
         return new RegistrationResponseDTO();
     }
 
-    private Roles GetRol(int id)
+    private int GetRol(int id)
     {
         switch (id)
         {
             case 1:
-                return Roles.ADMIN;
+                return 1;
             case 2:
-                return Roles.INDIVIDUAL_CUSTOMER;
+                return 2;
             case 3:
-                return Roles.ORGANIZATION;
+                return 3;
             default:
-                return Roles.INDIVIDUAL_CUSTOMER;
+                return 2;
         }
     }
 

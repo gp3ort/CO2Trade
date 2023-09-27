@@ -1,7 +1,9 @@
 using System.Net;
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.Models;
+using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CO2Trade_Login_Register.Controllers;
@@ -38,7 +40,7 @@ public class EntityUsersController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegistrationRequestDTO model)
     {
-        bool ifUserNameUnique = _entityUserRepo.IsUniqueEntityUser(model.UserName);
+        bool ifUserNameUnique = _entityUserRepo.IsUniqueEntityUser(model.BusinessName);
         if (!ifUserNameUnique)
         {
             _response.StatusCode = HttpStatusCode.BadRequest;

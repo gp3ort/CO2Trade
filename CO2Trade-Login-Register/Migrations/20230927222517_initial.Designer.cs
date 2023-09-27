@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230927013908_initial2")]
-    partial class initial2
+    [Migration("20230927222517_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,33 @@ namespace CO2Trade_Login_Register.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntityUser", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EntityTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Individual Person"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Legal Entity"
+                        });
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -56,7 +82,10 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("EntityType")
+                    b.Property<int>("IdEntityType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRol")
                         .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
@@ -95,6 +124,10 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdEntityType");
+
+                    b.HasIndex("IdRol");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -104,6 +137,44 @@ namespace CO2Trade_Login_Register.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Administrator rol",
+                            Name = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Individual customer rol",
+                            Name = "INDIVIDUAL_CUSTOMER"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Organization rol",
+                            Name = "ORGANIZATION"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -239,6 +310,25 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", b =>
+                {
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityType", "EntityType")
+                        .WithMany()
+                        .HasForeignKey("IdEntityType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("IdRol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EntityType");
+
+                    b.Navigation("Rol");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -250,7 +340,7 @@ namespace CO2Trade_Login_Register.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CO2Trade_Login_Register.Models.EntityUser", null)
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -259,7 +349,7 @@ namespace CO2Trade_Login_Register.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CO2Trade_Login_Register.Models.EntityUser", null)
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -274,7 +364,7 @@ namespace CO2Trade_Login_Register.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CO2Trade_Login_Register.Models.EntityUser", null)
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -283,7 +373,7 @@ namespace CO2Trade_Login_Register.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("CO2Trade_Login_Register.Models.EntityUser", null)
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
