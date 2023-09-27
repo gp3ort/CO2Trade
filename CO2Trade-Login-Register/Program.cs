@@ -1,6 +1,7 @@
 using CO2Trade_Login_Register.Data;
 using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Repository;
+using CO2Trade_Login_Register.Repository.IRepository;
 using MagicVilla_VillaAPI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
