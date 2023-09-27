@@ -121,6 +121,10 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdEntityType");
+
+                    b.HasIndex("IdRol");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -301,6 +305,25 @@ namespace CO2Trade_Login_Register.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", b =>
+                {
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityType", "EntityType")
+                        .WithMany()
+                        .HasForeignKey("IdEntityType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("IdRol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EntityType");
+
+                    b.Navigation("Rol");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
