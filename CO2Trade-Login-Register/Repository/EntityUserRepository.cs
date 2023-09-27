@@ -61,7 +61,6 @@ public class EntityUserRepository : IEntityUserRepository
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-
                 new Claim(ClaimTypes.Name, entityUser.Id.ToString()),
                 new Claim(ClaimTypes.Role, roles.FirstOrDefault())
             }),
