@@ -4,9 +4,9 @@ using MagicVilla_VillaAPI.Dto.ResponseDTO;
 
 namespace CO2Trade_Login_Register.Repository;
 
-public interface IUserRepository
+public interface IEntityUserRepository
 {
     bool IsUniqueUser(string username);
     Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
-    Task<EntityDTO> Register(RegistrationRequestDTO registerationRequestDTO);
+    Task<EntityUserDTO> Register(RegistrationRequestDTO registerationRequestDTO);
 }

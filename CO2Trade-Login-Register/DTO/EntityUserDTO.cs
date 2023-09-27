@@ -1,6 +1,6 @@
 namespace MagicVilla_VillaAPI.Dto;
 
-public class EntityDTO
+public class EntityUserDTO
 {
     public string ID { get; set; }
     public string UserName { get; set; }
