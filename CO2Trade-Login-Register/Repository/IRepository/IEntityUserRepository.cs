@@ -8,5 +8,5 @@ public interface IEntityUserRepository
 {
     bool IsUniqueEntityUser(string username);
     Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
-    Task<EntityUserDTO> Register(RegistrationRequestDTO registerationRequestDTO);
+    Task<EntityUserDTO> Register(RegistrationRequestDTO registrationRequestDTO);
 }

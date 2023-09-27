@@ -1,5 +1,7 @@
 using CO2Trade_Login_Register.Data;
 using CO2Trade_Login_Register.Models;
+using CO2Trade_Login_Register.Repository;
+using MagicVilla_VillaAPI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +14,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
-
+//Automapper
+builder.Services.AddAutoMapper(typeof(MappingConfig));
+//Repository
+builder.Services.AddScoped<IEntityUserRepository, EntityUserRepository>();
+//Identity
 builder.Services.AddIdentity<EntityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllers();

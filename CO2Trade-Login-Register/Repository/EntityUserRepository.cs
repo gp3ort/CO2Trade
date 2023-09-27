@@ -79,18 +79,19 @@ public class EntityUserRepository : IEntityUserRepository
         return loginResponseDto;
     }
 
-    public async Task<EntityUserDTO> Register(RegistrationRequestDTO registerationRequestDTO)
+    public async Task<EntityUserDTO> Register(RegistrationRequestDTO registrationRequestDTO)
     {
         EntityUser user = new()
         {
-            UserName = registerationRequestDTO.UserName,
-            Email = registerationRequestDTO.UserName,
-            BusinessName = registerationRequestDTO.Name,
-            NormalizedEmail = registerationRequestDTO.UserName.ToUpper(),
+            UserName = registrationRequestDTO.UserName,
+            Email = registrationRequestDTO.UserName,
+            EntityType = registrationRequestDTO.EntityType,
+            BusinessName = registrationRequestDTO.Name,
+            NormalizedEmail = registrationRequestDTO.UserName.ToUpper(),
         };
         try
         {
-            var result = await _userManager.CreateAsync(user, registerationRequestDTO.Password);
+            var result = await _userManager.CreateAsync(user, registrationRequestDTO.Password);
             if (result.Succeeded)
             {
                 if (!_roleManager.RoleExistsAsync("admin").GetAwaiter().GetResult())
@@ -100,7 +101,7 @@ public class EntityUserRepository : IEntityUserRepository
                 }
                 await _userManager.AddToRoleAsync(user, "admin");
                 var userToReturn =
-                    _db.EntityUsers.FirstOrDefault(u => u.UserName == registerationRequestDTO.UserName);
+                    _db.EntityUsers.FirstOrDefault(u => u.UserName == registrationRequestDTO.UserName);
                 return _mapper.Map<EntityUserDTO>(userToReturn);
             }
         }
