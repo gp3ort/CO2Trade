@@ -6,7 +6,7 @@ namespace CO2Trade_Login_Register.Repository;
 
 public interface IEntityUserRepository
 {
-    bool IsUniqueUser(string username);
+    bool IsUniqueEntityUser(string username);
     Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
     Task<EntityUserDTO> Register(RegistrationRequestDTO registerationRequestDTO);
 }
