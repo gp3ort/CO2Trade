@@ -9,7 +9,7 @@ public class EntityUser : IdentityUser
     public string Address { get; set; }
     [ForeignKey("Rol")] 
     public int IdRol { get; set; }
-    public Rol? Rol { get; set; }
+    public Rol Rol { get; set; }
     [ForeignKey("EntityType")] 
     public int IdEntityType { get; set; }
     public EntityType? EntityType { get; set; }
