@@ -99,7 +99,7 @@ public class EntityUserRepository : IEntityUserRepository
             Description = registrationRequestDTO.Description,
             Address = registrationRequestDTO.Address,
             IdRol = rolId,
-            Rol = await _db.Roles.FirstOrDefaultAsync(r => r.Id == registrationRequestDTO.IdRol)
+            Rol = await _db.Roles.FirstOrDefaultAsync(r => r.Id == rolId)
         };
 
         try

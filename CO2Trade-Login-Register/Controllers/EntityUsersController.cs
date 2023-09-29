@@ -3,6 +3,7 @@ using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Repository.IRepository;
+using CO2Trade_Login_Register.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,54 +13,23 @@ namespace CO2Trade_Login_Register.Controllers;
 [ApiController]
 public class EntityUsersController : ControllerBase
 {
-    private readonly IEntityUserRepository _entityUserRepo;
-    protected APIResponse _response;
-    public EntityUsersController(IEntityUserRepository entityEntityUser)
+    private readonly EntityUsersService _entityUsersService;
+    public EntityUsersController( EntityUsersService entityUsersService)
     {
-        _entityUserRepo = entityEntityUser;
-        _response = new();
+        _entityUsersService = entityUsersService;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDTO model)
     {
-        var loginResponse = await _entityUserRepo.Login(model);
-        if (loginResponse.EntityUser == null || string.IsNullOrEmpty(loginResponse.Token))
-        {
-            _response.StatusCode = HttpStatusCode.BadRequest;
-            _response.IsSuccess = false;
-            _response.ErrorMessage.Add("Username or password is incorrect");
-            return BadRequest(_response);
-        }
-        _response.StatusCode = HttpStatusCode.OK;
-        _response.IsSuccess = true;
-        _response.Result = loginResponse;
-        return Ok(_response);
+        APIResponse response = _entityUsersService.LoginUser(model).Result;
+        return response.IsSuccess ? Ok(response) : BadRequest(response.Result);
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegistrationRequestDTO model)
     {
-        bool ifUserNameUnique = _entityUserRepo.IsUniqueEntityUser(model.BusinessName);
-        if (!ifUserNameUnique)
-        {
-            _response.StatusCode = HttpStatusCode.BadRequest;
-            _response.IsSuccess = false;
-            _response.ErrorMessage.Add("Username already exists");
-            return BadRequest(_response);
-        }
-
-        var user = await _entityUserRepo.Register(model);
-        if (user == null)
-        {
-            _response.StatusCode = HttpStatusCode.BadRequest;
-            _response.IsSuccess = false;
-            _response.ErrorMessage.Add("Error while registering");
-            return BadRequest(_response);
-        }
-        _response.StatusCode = HttpStatusCode.OK;
-        _response.IsSuccess = true;
-        _response.Result = user;
-        return Ok(_response);
+        APIResponse response = _entityUsersService.Register(model).Result;
+        return response.IsSuccess ? Ok(response) : BadRequest(response);
     }
 }
