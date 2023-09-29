@@ -3,6 +3,8 @@ using CO2Trade_Login_Register.Data;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Repository;
 using CO2Trade_Login_Register.Repository.IRepository;
+using CO2Trade_Login_Register.Service;
+using CO2Trade_Login_Register.Service.IService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +21,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 //Repository
 builder.Services.AddScoped<IEntityUserRepository, EntityUserRepository>();
+builder.Services.AddTransient<EntityUsersService>();
+
 //Identity
 builder.Services.AddIdentity<EntityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
