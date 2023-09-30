@@ -6,4 +6,11 @@ public class CertificateResponseDTO
     public string ContentType { get; set; }
     public string FileName { get; set; }
     public bool IsSuccess { get; set; } = true;
+    public List<string> ErrorMessage { get; set; }
+    
+    public CertificateResponseDTO()
+    {
+        ErrorMessage = new List<string>();
+    }
+
 }
