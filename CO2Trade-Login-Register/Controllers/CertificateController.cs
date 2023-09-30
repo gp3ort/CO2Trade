@@ -20,7 +20,7 @@ public class CertificateController : ControllerBase
     public async Task<IActionResult> BuildCertificate(string idEntity)
     {
         CertificateResponseDTO response =  _certificateService.BuildCertificate(idEntity).Result;
-        return response.IsSuccess ?  File(response.Bytes, response.ContentType, response.FileName) : BadRequest();
+        return response.IsSuccess ? File(response.Bytes, response.ContentType, response.FileName) : BadRequest();
     }
     
     

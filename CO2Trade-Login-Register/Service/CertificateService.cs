@@ -1,6 +1,4 @@
-using System.Net;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
-using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Repository.IRepository;
 using CO2Trade_Login_Register.Service.IService;
 
