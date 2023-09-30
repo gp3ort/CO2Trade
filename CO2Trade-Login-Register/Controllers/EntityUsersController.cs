@@ -1,10 +1,6 @@
-using System.Net;
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.Models;
-using CO2Trade_Login_Register.Models.EntitiesUser;
-using CO2Trade_Login_Register.Repository.IRepository;
-using CO2Trade_Login_Register.Service;
-using Microsoft.AspNetCore.Authorization;
+using CO2Trade_Login_Register.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CO2Trade_Login_Register.Controllers;
@@ -13,8 +9,8 @@ namespace CO2Trade_Login_Register.Controllers;
 [ApiController]
 public class EntityUsersController : ControllerBase
 {
-    private readonly EntityUsersService _entityUsersService;
-    public EntityUsersController( EntityUsersService entityUsersService)
+    private readonly IEntityUserService _entityUsersService;
+    public EntityUsersController( IEntityUserService entityUsersService)
     {
         _entityUsersService = entityUsersService;
     }

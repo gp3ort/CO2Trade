@@ -1,0 +1,9 @@
+namespace CO2Trade_Login_Register.DTO.ResponseDTO;
+
+public class CertificateResponseDTO
+{
+    public byte[] Bytes { get; set; }
+    public string ContentType { get; set; }
+    public string FileName { get; set; }
+    public bool IsSuccess { get; set; } = true;
+}
