@@ -1,9 +1,6 @@
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Service.IService;
 using Microsoft.AspNetCore.Mvc;
-using PdfSharpCore;
-using PdfSharpCore.Pdf;
-using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace CO2Trade_Login_Register.Controllers;
 
