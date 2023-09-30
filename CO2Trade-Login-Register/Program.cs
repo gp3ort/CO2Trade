@@ -21,7 +21,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 //Repository
 builder.Services.AddScoped<IEntityUserRepository, EntityUserRepository>();
-builder.Services.AddTransient<EntityUsersService>();
+builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
+//Service
+builder.Services.AddScoped<IEntityUserService, EntityUsersService>();
+builder.Services.AddScoped<ICertificateService, CertificateService>();
 
 //Identity
 builder.Services.AddIdentity<EntityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();

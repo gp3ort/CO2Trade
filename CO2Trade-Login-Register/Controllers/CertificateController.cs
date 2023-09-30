@@ -1,3 +1,4 @@
+using CO2Trade_Login_Register.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using PdfSharpCore;
 using PdfSharpCore.Pdf;
@@ -6,10 +7,18 @@ using TheArtOfDev.HtmlRenderer.PdfSharp;
 namespace CO2Trade_Login_Register.Controllers;
 
 [ApiController]
+[Route("api/Certificate")]
 public class CertificateController : ControllerBase
 {
-    
-    [HttpGet("certificate")]
+
+    private readonly ICertificateService CertificateService;
+
+    public CertificateController(ICertificateService certificateService)
+    {
+        CertificateService = certificateService;
+    }
+
+    [HttpGet("getCertificate")]
     public async Task<IActionResult> GetCertificate(String invoiceNumber)
     {
         var document = new PdfDocument();
