@@ -18,23 +18,6 @@ public class CertificateController : ControllerBase
     {
         _certificateService = certificateService;
     }
-
-    [HttpGet("getCertificate")]
-    public async Task<IActionResult> GetCertificate(String invoiceNumber)
-    {
-        var document = new PdfDocument();
-        string htmlDocument = "<h1>Test</h1>";
-        PdfGenerator.AddPdfPages(document, htmlDocument, PageSize.A4);
-        byte[]? response = null;
-        using (MemoryStream ms = new MemoryStream())
-        {
-            document.Save(ms);
-            response = ms.ToArray();
-        }
-
-        string fileName = "Inovice_" + invoiceNumber + ".pdf";
-        return File(response, "application/pdf", fileName);
-    }
     
     [HttpGet("buildCertificate")]
     public async Task<IActionResult> BuildCertificate(string idEntity)
