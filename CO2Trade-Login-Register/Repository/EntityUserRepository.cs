@@ -6,13 +6,11 @@ using CO2Trade_Login_Register.Data;
 using CO2Trade_Login_Register.DTO;
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
-using CO2Trade_Login_Register.Enum;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Extensions;
 
 namespace CO2Trade_Login_Register.Repository;
 

@@ -1,3 +1,5 @@
+using System.Net;
+using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Repository.IRepository;
 using CO2Trade_Login_Register.Service.IService;
@@ -14,8 +16,14 @@ public class CertificateService : ICertificateService
         _certificateRepository = certificateRepository;
     }
     
-    public Task<APIResponse> getCertificate()
+    public Task<CertificateResponseDTO> GetCertificate(string idEntity)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<CertificateResponseDTO> BuildCertificate(string idEntity)
+    {
+        CertificateResponseDTO certificateResponse = await _certificateRepository.BuildCertificateFile(idEntity);
+        return certificateResponse;
     }
 }

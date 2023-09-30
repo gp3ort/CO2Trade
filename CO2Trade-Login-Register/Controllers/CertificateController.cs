@@ -1,3 +1,4 @@
+using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using PdfSharpCore;
@@ -11,11 +12,11 @@ namespace CO2Trade_Login_Register.Controllers;
 public class CertificateController : ControllerBase
 {
 
-    private readonly ICertificateService CertificateService;
+    private readonly ICertificateService _certificateService;
 
     public CertificateController(ICertificateService certificateService)
     {
-        CertificateService = certificateService;
+        _certificateService = certificateService;
     }
 
     [HttpGet("getCertificate")]
@@ -34,6 +35,14 @@ public class CertificateController : ControllerBase
         string fileName = "Inovice_" + invoiceNumber + ".pdf";
         return File(response, "application/pdf", fileName);
     }
+    
+    [HttpGet("buildCertificate")]
+    public async Task<IActionResult> BuildCertificate(string idEntity)
+    {
+        CertificateResponseDTO response =  _certificateService.BuildCertificate(idEntity).Result;
+        return response.IsSuccess ?  File(response.Bytes, response.ContentType, response.FileName) : BadRequest();
+    }
+    
     
    
 }
