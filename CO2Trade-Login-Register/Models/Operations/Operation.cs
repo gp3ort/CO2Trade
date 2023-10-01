@@ -11,10 +11,10 @@ public class Operation
     public DateTime OperationDate { get; set; }
     [ForeignKey("Certificate")]
     public int IdCertificate { get; set; }
-    public Certificate Certificate { get; set; }
+    public Certificate? Certificate { get; set; }
     [ForeignKey("EntityUser")]
     public string IdEntityUser { get; set; }
-    public EntityUser EntityUser { get; set; }
+    public EntityUser? EntityUser { get; set; }
     public decimal TotalCompensation { get; set; }
     
 }

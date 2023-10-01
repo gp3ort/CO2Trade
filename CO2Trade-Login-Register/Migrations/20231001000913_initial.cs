@@ -80,7 +80,7 @@ namespace CO2Trade_Login_Register.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileNameURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -189,7 +189,7 @@ namespace CO2Trade_Login_Register.Migrations
                     Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TonsOfOxygen = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IdProjectType = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdImage = table.Column<int>(type: "int", nullable: false)
@@ -478,7 +478,7 @@ namespace CO2Trade_Login_Register.Migrations
                     Id = table.Column<int>(type: "int", nullable: false),
                     IdOperation = table.Column<int>(type: "int", nullable: false),
                     IdProject = table.Column<int>(type: "int", nullable: false),
-                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                    ProjectId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -493,8 +493,7 @@ namespace CO2Trade_Login_Register.Migrations
                         name: "FK_OperationProjects_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -507,6 +506,16 @@ namespace CO2Trade_Login_Register.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Images",
+                columns: new[] { "Id", "Description", "FileNameURL" },
+                values: new object[] { 1, "just testing", "Test for test" });
+
+            migrationBuilder.InsertData(
+                table: "ProjectTypes",
+                columns: new[] { "Id", "Description" },
+                values: new object[] { 1, "Project type testing" });
+
+            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
@@ -515,6 +524,11 @@ namespace CO2Trade_Login_Register.Migrations
                     { 2, "Individual customer rol", "INDIVIDUAL_CUSTOMER" },
                     { 3, "Organization rol", "ORGANIZATION" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Projects",
+                columns: new[] { "Id", "Description", "IdImage", "IdProjectType", "Name", "Price", "TonsOfOxygen" },
+                values: new object[] { 1, "Just a test project", 1, 1, "Project for TEST", 25m, 25m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

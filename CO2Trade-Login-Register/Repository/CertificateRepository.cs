@@ -1,4 +1,5 @@
 using CO2Trade_Login_Register.Data;
+using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Repository.IRepository;
 using PdfSharpCore;
@@ -18,10 +19,11 @@ public class CertificateRepository : ICertificateRepository
         _responseDto = new CertificateResponseDTO();
     }
 
-    public async Task<CertificateResponseDTO> BuildCertificateFile(string idEntity)
+    public async Task<CertificateResponseDTO> BuildCertificateFile(CertificateRequestDTO certificateRequest)
     {
         try
         {
+            string idEntity = certificateRequest.IdEntity;
             var entity = await _db.EntityUsers.FindAsync(idEntity);
             var document = new PdfDocument();
             string htmlDocument = "<h1>Certificate for :" + entity.BusinessName + "</h1>";

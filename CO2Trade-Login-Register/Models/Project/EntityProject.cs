@@ -10,8 +10,8 @@ public class EntityProject
     public int Id { get; set; }
     [ForeignKey("Project")]
     public int IdProject { get; set; }
-    public Project Project { get; set; }
+    public Project? Project { get; set; }
     [ForeignKey("EntityUser")]
     public string IdEntityUser { get; set; }
-    public EntityUser EntityUser { get; set; }
+    public EntityUser? EntityUser { get; set; }
 }

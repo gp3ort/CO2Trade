@@ -1,4 +1,5 @@
 using System.Net;
+using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Service.IService;
@@ -18,10 +19,10 @@ public class CertificateController : ControllerBase
         _certificateService = certificateService;
     }
     
-    [HttpGet("buildCertificate")]
-    public async Task<IActionResult> BuildCertificate(string idEntity)
+    [HttpPost("buildCertificate")]
+    public async Task<IActionResult> BuildCertificate(CertificateRequestDTO certificateRequest)
     {
-        CertificateResponseDTO response =  _certificateService.BuildCertificate(idEntity).Result;
+        CertificateResponseDTO response =  _certificateService.BuildCertificate(certificateRequest).Result;
         return response.IsSuccess ? File(response.Bytes, response.ContentType, response.FileName) : BadRequest(BuildBadRequestApiResponse(response));
     }
 
