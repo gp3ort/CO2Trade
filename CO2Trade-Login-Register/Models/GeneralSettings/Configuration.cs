@@ -12,7 +12,7 @@ public class Configuration
     public string Currency { get; set; }
     [ForeignKey("Image")]
     public int IdLogo { get; set; }
-    public Image Image { get; set; }
+    public Image? Image { get; set; }
     public string Ip { get; set; }
     public int puerto { get; set; }
 }

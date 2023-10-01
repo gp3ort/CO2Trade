@@ -10,8 +10,8 @@ public class OperationProject
     public int Id { get; set; }
     [ForeignKey("Operation")]
     public int IdOperation { get; set; }
-    public Operation Operation { get; set; }
+    public Operation? Operation { get; set; }
     [ForeignKey("IdProject")]
     public int IdProject { get; set; }
-    public Project Project { get; set; }
+    public Project? Project { get; set; }
 }

@@ -1,4 +1,7 @@
+using System.Net;
+using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
+using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +19,20 @@ public class CertificateController : ControllerBase
         _certificateService = certificateService;
     }
     
-    [HttpGet("buildCertificate")]
-    public async Task<IActionResult> BuildCertificate(string idEntity)
+    [HttpPost("buildCertificate")]
+    public async Task<IActionResult> BuildCertificate(CertificateRequestDTO certificateRequest)
     {
-        CertificateResponseDTO response =  _certificateService.BuildCertificate(idEntity).Result;
-        return response.IsSuccess ? File(response.Bytes, response.ContentType, response.FileName) : BadRequest();
+        CertificateResponseDTO response =  _certificateService.BuildCertificate(certificateRequest).Result;
+        return response.IsSuccess ? File(response.Bytes, response.ContentType, response.FileName) : BadRequest(BuildBadRequestApiResponse(response));
+    }
+
+    private APIResponse BuildBadRequestApiResponse(CertificateResponseDTO certificateResponseDto)
+    {
+        APIResponse response = new APIResponse();
+        response.IsSuccess = false;
+        response.ErrorMessage = certificateResponseDto.ErrorMessage;
+        response.StatusCode = HttpStatusCode.BadRequest;
+        return response;
     }
     
     

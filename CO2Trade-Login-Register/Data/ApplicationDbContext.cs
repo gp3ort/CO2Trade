@@ -73,5 +73,35 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
                     Description = "Legal Entity"
                 }
             );
+            
+            modelBuilder.Entity<Image>().HasData(
+                new Image
+                {
+                    Id = 1,
+                    FileNameURL = "Test for test",
+                    Description = "just testing"
+                });
+
+            modelBuilder.Entity<Project>().HasData(
+                new Project
+                {
+                    Id = 1,
+                    Name = "Project for TEST",
+                    TonsOfOxygen = 25,
+                    Price = 25,
+                    IdProjectType = 1,
+                    ProjectType = null,
+                    Description = "Just a test project",
+                    IdImage = 1,
+                    Image = null
+                }
+            );
+
+            modelBuilder.Entity<ProjectType>().HasData(
+                new ProjectType
+                {
+                    Id = 1,
+                    Description = "Project type testing",
+                });
         }
 }

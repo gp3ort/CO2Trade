@@ -10,8 +10,8 @@ public class EntityDocument
     public int Id { get; set; }
     [ForeignKey("EntityUser")]
     public string IdEntidad { get; set; }
-    public EntityUser EntityUser { get; set; }
+    public EntityUser? EntityUser { get; set; }
     [ForeignKey("Document")]
     public int IdDocument { get; set; }
-    public Document Document { get; set; }
+    public Document? Document { get; set; }
 }

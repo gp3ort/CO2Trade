@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230928125612_initial")]
+    [Migration("20231001000913_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -334,13 +334,21 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FileNameURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Images");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "just testing",
+                            FileNameURL = "Test for test"
+                        });
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Measure.MeasureCO2", b =>
@@ -440,7 +448,7 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<int>("IdProject")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectId")
+                    b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -471,10 +479,10 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("TonsOfOxygen")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("price")
+                    b.Property<decimal>("TonsOfOxygen")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -484,6 +492,18 @@ namespace CO2Trade_Login_Register.Migrations
                     b.HasIndex("IdProjectType");
 
                     b.ToTable("Projects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Just a test project",
+                            IdImage = 1,
+                            IdProjectType = 1,
+                            Name = "Project for TEST",
+                            Price = 25m,
+                            TonsOfOxygen = 25m
+                        });
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.ProjectType", b =>
@@ -498,6 +518,13 @@ namespace CO2Trade_Login_Register.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProjectTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Project type testing"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -768,9 +795,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasOne("CO2Trade_Login_Register.Models.Project.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProjectId");
 
                     b.Navigation("Operation");
 

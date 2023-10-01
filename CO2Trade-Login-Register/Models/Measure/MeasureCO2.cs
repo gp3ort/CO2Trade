@@ -10,7 +10,7 @@ public class MeasureCO2
     public int Id { get; set; }
     [ForeignKey("EntityUser")]
     public string IdEntidad { get; set; }
-    public EntityUser EntityUser { get; set; }
+    public EntityUser? EntityUser { get; set; }
     public DateTime DateTime { get; set; }
     public decimal Co2E { get; set; }
     public DateTime ExpirationDate { get; set; }
