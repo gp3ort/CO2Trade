@@ -10,22 +10,24 @@ namespace CO2Trade_Login_Register.Controllers;
 public class EntityUsersController : ControllerBase
 {
     private readonly IEntityUserService _entityUsersService;
+    private APIResponse _response;
     public EntityUsersController( IEntityUserService entityUsersService)
     {
         _entityUsersService = entityUsersService;
+        _response = new();
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDTO model)
     {
-        APIResponse response = _entityUsersService.LoginUser(model).Result;
-        return response.IsSuccess ? Ok(response) : BadRequest(response.Result);
+        _response = _entityUsersService.LoginUser(model).Result;
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response.Result);
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegistrationRequestDTO model)
     {
-        APIResponse response = _entityUsersService.Register(model).Result;
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
+        _response = _entityUsersService.Register(model).Result;
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 }
