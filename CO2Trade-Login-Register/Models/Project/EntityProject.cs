@@ -6,7 +6,7 @@ namespace CO2Trade_Login_Register.Models.Project;
 
 public class EntityProject
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     [ForeignKey("Project")]
     public int IdProject { get; set; }
