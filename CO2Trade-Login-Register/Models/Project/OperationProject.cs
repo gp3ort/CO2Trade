@@ -6,7 +6,7 @@ namespace CO2Trade_Login_Register.Models.Project;
 
 public class OperationProject
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     [ForeignKey("Operation")]
     public int IdOperation { get; set; }

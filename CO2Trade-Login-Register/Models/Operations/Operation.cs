@@ -6,7 +6,7 @@ namespace CO2Trade_Login_Register.Models.Operations;
 
 public class Operation
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id{ get; set; }
     public DateTime OperationDate { get; set; }
     [ForeignKey("Certificate")]

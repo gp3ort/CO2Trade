@@ -5,7 +5,7 @@ namespace CO2Trade_Login_Register.Models.Operations;
 
 public class Certificate
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string Date { get; set; }
     public string ProjectName { get; set; }

@@ -6,7 +6,7 @@ namespace CO2Trade_Login_Register.Models.Project;
 
 public class Project
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string Name { get; set; }
     public decimal TonsOfOxygen { get; set; }

@@ -5,7 +5,7 @@ namespace CO2Trade_Login_Register.Models.EntitiesUser;
 
 public class Rol
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }

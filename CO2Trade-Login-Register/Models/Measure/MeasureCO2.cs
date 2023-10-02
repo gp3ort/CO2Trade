@@ -6,7 +6,7 @@ namespace CO2Trade_Login_Register.Models.Measure;
 
 public class MeasureCO2
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     [ForeignKey("EntityUser")]
     public string IdEntidad { get; set; }
