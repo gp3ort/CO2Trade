@@ -2,7 +2,6 @@ using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Repository.IRepository;
 using CO2Trade_Login_Register.Service.IService;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CO2Trade_Login_Register.Service;
 
@@ -16,9 +15,17 @@ public class CertificateService : ICertificateService
         _certificateRepository = certificateRepository;
     }
     
-    public Task<CertificateResponseDTO> GetCertificate(string idEntity)
+    public async Task<CertificateResponseDTO> GetCertificate(CertificateRequestDTO certificateRequest)
     {
-        throw new NotImplementedException();
+        if (certificateRequest == null)
+        {
+            CertificateResponseDTO responseDto = new CertificateResponseDTO();
+            responseDto.IsSuccess = false;
+            responseDto.ErrorMessage.Add("Invalid or empty EntityUser ID");
+            return responseDto;
+        }
+        CertificateResponseDTO certificateResponse = await _certificateRepository.GetCertificateFile(certificateRequest);
+        return certificateResponse;
     }
 
     public async Task<CertificateResponseDTO> BuildCertificate(CertificateRequestDTO certificateRequest)

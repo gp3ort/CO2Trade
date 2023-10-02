@@ -6,6 +6,6 @@ namespace CO2Trade_Login_Register.Service.IService;
 
 public interface ICertificateService
 {
-    Task<CertificateResponseDTO> GetCertificate(string idEntity);
+    Task<CertificateResponseDTO> GetCertificate(CertificateRequestDTO certificateRequest);
     Task<CertificateResponseDTO> BuildCertificate(CertificateRequestDTO certificateRequest);
 }

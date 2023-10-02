@@ -4,6 +4,7 @@ using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models.Operations;
 using CO2Trade_Login_Register.Repository.IRepository;
 using CO2Trade_Login_Register.Utils;
+using Microsoft.EntityFrameworkCore;
 using PdfSharpCore;
 using PdfSharpCore.Pdf;
 using TheArtOfDev.HtmlRenderer.PdfSharp;
@@ -34,20 +35,7 @@ public class CertificateRepository : ICertificateRepository
             DateTime actualDate = DateTime.Now;
             string date = actualDate.ToString("M/d/yyyy");
 
-            var document = new PdfDocument();
-            string htmlDocument = CertificateMaker.BuildCertificate(entityName, projectName, projectCO2, date);
-
-            PdfGenerator.AddPdfPages(document, htmlDocument, PageSize.A4);
-            byte[]? response = null;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                document.Save(ms);
-                response = ms.ToArray();
-            }
-            string fileName = "Certificate for: " + entity.BusinessName + ".pdf";
-            _responseDto.Bytes = response;
-            _responseDto.ContentType = "application/pdf";
-            _responseDto.FileName = fileName;
+            BuildCertificate(entityName, projectName, projectCO2, date);
 
             Certificate certificate = new Certificate
             {
@@ -71,5 +59,43 @@ public class CertificateRepository : ICertificateRepository
             return _responseDto;
         }
         
+    }
+
+    public async Task<CertificateResponseDTO> GetCertificateFile(CertificateRequestDTO certificateRequest)
+    {
+        try
+        {
+            var entity = await _db.EntityUsers.FindAsync(certificateRequest.IdEntity);
+            var project = await _db.Projects.FindAsync(certificateRequest.IdProject);
+
+            var certificate = await _db.Certificates.FirstOrDefaultAsync(e => e.IdEntity == entity.Id && e.IdProject == project.Id);
+            BuildCertificate(certificate.EntityName, certificate.ProjectName, certificate.ProjectCO2, certificate.Date);
+
+            return _responseDto;
+        }
+        catch (Exception e)
+        {
+            _responseDto.IsSuccess = false;
+            _responseDto.ErrorMessage.Add(e.Message);
+            return _responseDto;
+        }
+    }
+
+    private void BuildCertificate(string entityName, string projectName, decimal projectCO2, string date)
+    {
+        var document = new PdfDocument();
+        string htmlDocument = CertificateMaker.BuildCertificate(entityName, projectName, projectCO2, date);
+
+        PdfGenerator.AddPdfPages(document, htmlDocument, PageSize.A4);
+        byte[]? response = null;
+        using (MemoryStream ms = new MemoryStream())
+        {
+            document.Save(ms);
+            response = ms.ToArray();
+        }
+        string fileName = "Certificate for: " + entityName + ".pdf";
+        _responseDto.Bytes = response;
+        _responseDto.ContentType = "application/pdf";
+        _responseDto.FileName = fileName;
     }
 }
