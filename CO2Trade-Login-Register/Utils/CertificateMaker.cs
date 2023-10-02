@@ -2,10 +2,8 @@ namespace CO2Trade_Login_Register.Utils;
 
 public class CertificateMaker
 {
-    public static string BuildCertificate(string entityName, string projectName, decimal projectCO2)
+    public static string BuildCertificate(string entityName, string projectName, decimal projectCO2, String date)
     {
-        DateTime actualDate = DateTime.Now;
-        string date = actualDate.ToString("M/d/yyyy");
         string src = "Utils/logo.jpg";
         string html = $@"
 <!DOCTYPE html>

@@ -7,5 +7,10 @@ public class Certificate
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
-    public DateTime CertificateDate { get; set; }
+    public string Date { get; set; }
+    public string ProjectName { get; set; }
+    public decimal ProjectCO2 { get; set; }
+    public string EntityName { get; set; }
+    public string IdEntity { get; set; }
+    public int IdProject { get; set; }
 }

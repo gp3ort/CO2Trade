@@ -32,7 +32,12 @@ namespace CO2Trade_Login_Register.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    CertificateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProjectCO2 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EntityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdEntity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdProject = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231001000913_initial")]
+    [Migration("20231002193301_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -381,8 +381,27 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CertificateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EntityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdEntity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdProject")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ProjectCO2")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

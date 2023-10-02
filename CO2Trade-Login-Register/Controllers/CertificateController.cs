@@ -20,9 +20,16 @@ public class CertificateController : ControllerBase
     }
     
     [HttpPost("buildCertificate")]
-    public async Task<IActionResult> BuildCertificate(CertificateRequestDTO certificateRequest)
+    public async Task<IActionResult> BuildNewCertificate(CertificateRequestDTO certificateRequest)
     {
         CertificateResponseDTO response =  _certificateService.BuildCertificate(certificateRequest).Result;
+        return response.IsSuccess ? File(response.Bytes, response.ContentType, response.FileName) : BadRequest(BuildBadRequestApiResponse(response));
+    }
+    
+    [HttpPost("getCertificate")]
+    public async Task<IActionResult> GetCertificate(CertificateRequestDTO certificateRequest)
+    {
+        CertificateResponseDTO response =  _certificateService.GetCertificate(certificateRequest).Result;
         return response.IsSuccess ? File(response.Bytes, response.ContentType, response.FileName) : BadRequest(BuildBadRequestApiResponse(response));
     }
 
