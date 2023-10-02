@@ -22,6 +22,8 @@ public class ProjectController : ControllerBase
     public async Task<IActionResult> CreateProject(ProjectRequestDTO projectRequestDto)
     {
         _response = await _projectService.CreateNewProject(projectRequestDto);
-        return _response.IsSuccess ? Ok(_response) : BadRequest(_response.Result);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
+    
+    
 }
