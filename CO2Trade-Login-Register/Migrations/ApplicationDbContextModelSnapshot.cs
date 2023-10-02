@@ -25,7 +25,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.Bill", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("GrossTotal")
                         .HasColumnType("decimal(18,2)");
@@ -59,7 +62,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.TaxCondition", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -76,7 +82,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.TaxDocumentType", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -90,7 +99,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Documents.Document", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Number")
                         .IsRequired()
@@ -104,7 +116,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Documents.DocumentType", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -118,7 +133,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Documents.EntityDocument", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("IdDocument")
                         .HasColumnType("int");
@@ -139,7 +157,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityType", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -253,7 +274,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.Rol", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -291,7 +315,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.GeneralSettings.Configuration", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Currency")
                         .IsRequired()
@@ -325,7 +352,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.GeneralSettings.Image", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -351,7 +381,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Measure.MeasureCO2", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Co2E")
                         .HasColumnType("decimal(18,2)");
@@ -376,7 +409,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Certificate", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Date")
                         .IsRequired()
@@ -408,7 +444,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Operation", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("IdCertificate")
                         .HasColumnType("int");
@@ -435,7 +474,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.EntityProject", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("IdEntityUser")
                         .IsRequired()
@@ -456,7 +498,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.OperationProject", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("IdOperation")
                         .HasColumnType("int");
@@ -479,7 +524,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.Project", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -525,7 +573,10 @@ namespace CO2Trade_Login_Register.Migrations
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.ProjectType", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()

@@ -31,7 +31,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "Certificates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProjectCO2 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -48,7 +49,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "Documents",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -60,7 +62,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "DocumentTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -72,7 +75,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "EntityTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -84,7 +88,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FileNameURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -97,7 +102,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "ProjectTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -109,7 +115,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -122,7 +129,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "TaxConditions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TaxRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -135,7 +143,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "TaxDocumentTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -168,7 +177,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "Configurations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PlatformName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -191,7 +201,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TonsOfOxygen = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -347,7 +358,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "EntityDocuments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdEntidad = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IdDocument = table.Column<int>(type: "int", nullable: false)
                 },
@@ -372,7 +384,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "EntityProjects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdProject = table.Column<int>(type: "int", nullable: false),
                     IdEntityUser = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -397,7 +410,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "MeasureCo2s",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdEntidad = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Co2E = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -418,7 +432,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "Operations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     OperationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdCertificate = table.Column<int>(type: "int", nullable: false),
                     IdEntityUser = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -445,7 +460,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "Bills",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     OperationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdOperacion = table.Column<int>(type: "int", nullable: false),
                     GrossTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -480,7 +496,8 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "OperationProjects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdOperation = table.Column<int>(type: "int", nullable: false),
                     IdProject = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: true)
