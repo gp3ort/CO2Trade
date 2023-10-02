@@ -5,7 +5,7 @@ namespace CO2Trade_Login_Register.Models.GeneralSettings;
 
 public class Image
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string FileNameURL { get; set; }
     public string Description { get; set; }
