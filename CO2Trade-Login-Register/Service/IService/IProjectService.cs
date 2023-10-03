@@ -9,4 +9,5 @@ public interface IProjectService
       Task<APIResponse> GetAllProjects();
       Task<APIResponse> GetProject(int id);
       Task<APIResponse> RemoveProject(int id);
+      Task<APIResponse> UpdateProject(int id, ProjectRequestDTO projectRequestDto);
 }

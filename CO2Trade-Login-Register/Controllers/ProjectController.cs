@@ -45,4 +45,11 @@ public class ProjectController : ControllerBase
         _response = await _projectService.RemoveProject(id);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
+
+    [HttpPut("updateProject")]
+    public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectRequestDTO projectRequestDto)
+    {
+        _response = await _projectService.UpdateProject(id, projectRequestDto);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
 }
