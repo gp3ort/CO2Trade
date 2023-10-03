@@ -79,4 +79,25 @@ public class ProjectService : IProjectService
             return _response;
         }
     }
+
+    public async Task<APIResponse> RemoveProject(int id)
+    {
+        try
+        {
+            Project project = await _projectRepository.GetAsync(x => x.Id == id);
+            await _projectRepository.RemoveAsync(project);
+            _response.Result = _mapper.Map<ProjectResponseDTO>(project);
+            _response.StatusCode = HttpStatusCode.NoContent;
+            _response.IsSuccess = true;
+
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+    }
 }
