@@ -19,11 +19,16 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateProject(ProjectRequestDTO projectRequestDto)
+    public async Task<IActionResult> CreateProject([FromBody] ProjectRequestDTO projectRequestDto)
     {
         _response = await _projectService.CreateNewProject(projectRequestDto);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
-    
-    
+
+    [HttpGet("getAllProjects")]
+    public async Task<IActionResult> GetAllProjects()
+    {
+        _response = await _projectService.GetAllProjects();
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
 }

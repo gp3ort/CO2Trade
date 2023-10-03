@@ -40,6 +40,26 @@ public class ProjectService : IProjectService
             _response.ErrorMessage.Add(e.Message);
             return _response;
         }
+    }
+
+    public async Task<APIResponse> GetAllProjects()
+    {
+        try
+        {
+            List<Project> projects = await _projectRepository.GetAllAsync();
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = _mapper.Map<List<ProjectResponseDTO>>(projects);
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+        
         
     }
 }

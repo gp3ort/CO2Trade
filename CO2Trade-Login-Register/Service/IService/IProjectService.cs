@@ -6,4 +6,5 @@ namespace CO2Trade_Login_Register.Service.IService;
 public interface IProjectService
 {
       Task<APIResponse> CreateNewProject(ProjectRequestDTO projectRequestDto);
+      Task<APIResponse> GetAllProjects();
 }

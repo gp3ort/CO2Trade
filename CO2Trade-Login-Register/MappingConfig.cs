@@ -20,6 +20,8 @@ namespace CO2Trade_Login_Register
             CreateMap<Project, ProjectResponseDTO>().ReverseMap();
             
             CreateMap<Image, ImageRequestDTO>().ReverseMap();
+
+            CreateMap<Project, ProjectResponseDTO>().ReverseMap();
         }
     }
 }

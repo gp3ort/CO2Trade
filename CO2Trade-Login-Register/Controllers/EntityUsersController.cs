@@ -21,7 +21,7 @@ public class EntityUsersController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequestDTO model)
     {
         _response = _entityUsersService.LoginUser(model).Result;
-        return _response.IsSuccess ? Ok(_response) : BadRequest(_response.Result);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 
     [HttpPost("register")]
