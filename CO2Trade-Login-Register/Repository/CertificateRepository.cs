@@ -39,7 +39,6 @@ public class CertificateRepository : ICertificateRepository
 
             Certificate certificate = new Certificate
             {
-                Id = 0,
                 Date = date,
                 ProjectName = projectName,
                 ProjectCO2 = projectCO2,
