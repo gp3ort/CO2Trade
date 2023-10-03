@@ -7,4 +7,5 @@ public interface IProjectService
 {
       Task<APIResponse> CreateNewProject(ProjectRequestDTO projectRequestDto);
       Task<APIResponse> GetAllProjects();
+      Task<APIResponse> GetProject(int id);
 }
