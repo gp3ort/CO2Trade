@@ -27,7 +27,6 @@ public class ProjectController : ControllerBase
     }
 
     [HttpGet("getAllProjects")]
-    [Authorize(Roles = "INDIVIDUAL_CUSTOMER")]
     public async Task<IActionResult> GetAllProjects()
     {
         _response = await _projectService.GetAllProjects();
