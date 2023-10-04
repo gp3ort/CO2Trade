@@ -20,7 +20,7 @@ public class EntityUserRepository : IEntityUserRepository
     private readonly ApplicationDbContext _db;
     private readonly UserManager<EntityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private string secretKey;
+    private readonly IConfiguration _configuration;
     private readonly IMapper _mapper;
 
     public EntityUserRepository(ApplicationDbContext db, UserManager<EntityUser> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IMapper mapper)
@@ -28,7 +28,7 @@ public class EntityUserRepository : IEntityUserRepository
         _db = db;
         _userManager = userManager;
         _roleManager = roleManager;
-        secretKey = configuration.GetValue<string>("ApiSettings:Secret");
+        _configuration = configuration;
         _mapper = mapper;
     }
 
@@ -56,24 +56,21 @@ public class EntityUserRepository : IEntityUserRepository
         }
 
         var roles = await _userManager.GetRolesAsync(entityUser);
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(secretKey);
-
-        var tokenDescriptor = new SecurityTokenDescriptor()
+        var authClaims = new List<Claim>
         {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, entityUser.Id.ToString()),
-                new Claim(ClaimTypes.Role, roles.FirstOrDefault())
-            }),
-            Expires = DateTime.UtcNow.AddDays(7),
-            SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            new Claim(ClaimTypes.Name, entityUser.BusinessName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
-        var token = tokenHandler.CreateToken(tokenDescriptor);
+        foreach (var userRole in roles)
+        {
+            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+        }
+        string token = GenerateToken(authClaims);
+
         LoginResponseDTO loginResponseDto = new LoginResponseDTO()
         {
-            Token = tokenHandler.WriteToken(token),
+            Token = token,
             EntityUser = _mapper.Map<EntityUserDTO>(entityUser),
             Role = roles.FirstOrDefault()
         };
@@ -106,12 +103,13 @@ public class EntityUserRepository : IEntityUserRepository
             
             if (result.Succeeded)
             {
-                if (!_roleManager.RoleExistsAsync(user.Rol.Name).GetAwaiter().GetResult())
+                if (!_roleManager.RoleExistsAsync(UserRoles.Admin).GetAwaiter().GetResult())
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(user.Rol.Name));
+                    await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
                 }
 
-                await _userManager.AddToRoleAsync(user, user.Rol.Name);
+                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+
                 var userToReturn =
                     _db.EntityUsers.FirstOrDefault(u => u.UserName == registrationRequestDTO.BusinessName);
                 RegistrationResponseDTO responseDto = new RegistrationResponseDTO
@@ -127,6 +125,26 @@ public class EntityUserRepository : IEntityUserRepository
         }
 
         return new RegistrationResponseDTO();
+    }
+
+
+    private string GenerateToken(IEnumerable<Claim> claims)
+    {
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTKey:Secret"]));
+        var _TokenExpiryTimeInHour = Convert.ToInt64(_configuration["JWTKey:TokenExpiryTimeInHour"]);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Issuer = _configuration["JWTKey:ValidIssuer"],
+            Audience = _configuration["JWTKey:ValidAudience"],
+            //Expires = DateTime.UtcNow.AddHours(_TokenExpiryTimeInHour),
+            Expires = DateTime.UtcNow.AddMinutes(1),
+            SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256),
+            Subject = new ClaimsIdentity(claims)
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 
     private int GetRol(int id)

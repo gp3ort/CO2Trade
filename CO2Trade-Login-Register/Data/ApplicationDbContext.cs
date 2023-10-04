@@ -18,7 +18,9 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
     }
     
     public DbSet<EntityUser> EntityUsers { get; set; }
+    
     public DbSet<Rol> Roles { get; set; }
+
     public DbSet<EntityType> EntityTypes { get; set; }
     public DbSet<Bill> Bills { get; set; }
     public DbSet<TaxCondition> TaxConditions { get; set; }
@@ -40,28 +42,28 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Rol>().HasData(
-                new Rol
-                {
-                    Id = 1,
-                    Name = Enum.Roles.ADMIN.ToString(),
-                    Description = "Administrator rol"
-                },
-                new Rol
-                {
-                    Id = 2,
-                    Name = Enum.Roles.INDIVIDUAL_CUSTOMER.ToString(),
-                    Description = "Individual customer rol"
-                },
-                new Rol
-                {
-                    Id = 3,
-                    Name = Enum.Roles.ORGANIZATION.ToString(),
-                    Description = "Organization rol"
-                }
-            );
+        //modelbuilder.entity<rol>().hasdata(
+        //        new rol
+        //        {
+        //            id = 1,
+        //            name = enum.roles.admin.tostring(),
+        //            description = "administrator rol"
+        //        },
+        //        new rol
+        //        {
+        //            id = 2,
+        //            name = enum.roles.individual_customer.tostring(),
+        //            description = "individual customer rol"
+        //        },
+        //        new rol
+        //        {
+        //            id = 3,
+        //            name = enum.roles.organization.tostring(),
+        //            description = "organization rol"
+        //        }
+        //    );
 
-            modelBuilder.Entity<EntityType>().HasData(
+        modelBuilder.Entity<EntityType>().HasData(
                 new EntityType
                 {
                     Id = 1,

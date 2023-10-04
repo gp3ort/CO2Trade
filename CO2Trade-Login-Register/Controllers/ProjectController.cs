@@ -1,6 +1,7 @@
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CO2Trade_Login_Register.Controllers;
@@ -24,7 +25,7 @@ public class ProjectController : ControllerBase
         _response = await _projectService.CreateNewProject(projectRequestDto);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet("getAllProjects")]
     public async Task<IActionResult> GetAllProjects()
     {
