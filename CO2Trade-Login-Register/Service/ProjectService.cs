@@ -101,12 +101,11 @@ public class ProjectService : IProjectService
         }
     }
 
-    public async Task<APIResponse> UpdateProject(int id, ProjectRequestDTO projectRequestDto)
+    public async Task<APIResponse> UpdateProject(ProjectRequestDTO projectRequestDto)
     {
         try
         {
-            Project project = await  _projectRepository.GetAsync(x => x.Id == id);
-            project = _mapper.Map<Project>(projectRequestDto);
+            Project project = _mapper.Map<Project>(projectRequestDto);
             await _projectRepository.Update(project);
             _response.StatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
