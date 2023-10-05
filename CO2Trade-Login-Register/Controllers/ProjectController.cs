@@ -48,9 +48,9 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPut("updateProject")]
-    public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectRequestDTO projectRequestDto)
+    public async Task<IActionResult> UpdateProject([FromBody] ProjectRequestDTO projectRequestDto)
     {
-        _response = await _projectService.UpdateProject(id, projectRequestDto);
+        _response = await _projectService.UpdateProject(projectRequestDto);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 }

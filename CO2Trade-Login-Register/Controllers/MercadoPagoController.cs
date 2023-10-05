@@ -22,6 +22,6 @@ public class MercadoPagoController : ControllerBase
     public async Task<IActionResult> ProcessPayment([FromBody] PaymentRequestDTO projectRequestDto)
     {
         _response = await _mercadoPagoService.ProcessPayment(projectRequestDto);
-        return _response.IsSuccess ? Ok(_response.Result) : BadRequest(_response);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 }
