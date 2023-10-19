@@ -1,7 +1,6 @@
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Service.IService;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CO2Trade_Login_Register.Controllers;

@@ -1,5 +1,5 @@
 using CO2Trade_Login_Register.Data;
-using CO2Trade_Login_Register.Models.Project;
+using CO2Trade_Login_Register.Models.Projects;
 using CO2Trade_Login_Register.Repository.IRepository;
 
 namespace CO2Trade_Login_Register.Repository;

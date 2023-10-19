@@ -4,7 +4,7 @@ using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Models.GeneralSettings;
 using CO2Trade_Login_Register.Models.Measure;
 using CO2Trade_Login_Register.Models.Operations;
-using CO2Trade_Login_Register.Models.Project;
+using CO2Trade_Login_Register.Models.Projects;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

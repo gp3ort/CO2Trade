@@ -3,7 +3,7 @@ using AutoMapper;
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models;
-using CO2Trade_Login_Register.Models.Project;
+using CO2Trade_Login_Register.Models.Projects;
 using CO2Trade_Login_Register.Repository.IRepository;
 using CO2Trade_Login_Register.Service.IService;
 
