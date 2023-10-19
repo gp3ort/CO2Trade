@@ -4,7 +4,7 @@ using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Models.GeneralSettings;
-using CO2Trade_Login_Register.Models.Project;
+using CO2Trade_Login_Register.Models.Projects;
 
 
 namespace CO2Trade_Login_Register

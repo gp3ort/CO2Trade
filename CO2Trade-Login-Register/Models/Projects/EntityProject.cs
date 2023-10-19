@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 
-namespace CO2Trade_Login_Register.Models.Project;
+namespace CO2Trade_Login_Register.Models.Projects;
 
 public class EntityProject
 {

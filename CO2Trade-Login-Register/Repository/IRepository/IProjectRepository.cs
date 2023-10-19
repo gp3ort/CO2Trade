@@ -1,4 +1,4 @@
-using CO2Trade_Login_Register.Models.Project;
+using CO2Trade_Login_Register.Models.Projects;
 
 namespace CO2Trade_Login_Register.Repository.IRepository;
 
