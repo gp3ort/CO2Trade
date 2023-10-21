@@ -17,5 +17,4 @@ public class ShoppingCart
     [ForeignKey("EntityUser")]
     public string IdEntityUser { get; set; }
     public EntityUser? EntityUser { get; set; }
-    public decimal Price { get; set; }
 }

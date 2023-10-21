@@ -471,6 +471,36 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("Operations");
                 });
 
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Canceled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IdEntityUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("IdProject")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Processed")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdEntityUser");
+
+                    b.HasIndex("IdProject");
+
+                    b.ToTable("ShoppingCarts");
+                });
+
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.EntityProject", b =>
                 {
                     b.Property<int>("Id")
@@ -840,6 +870,25 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("Certificate");
 
                     b.Navigation("EntityUser");
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.ShoppingCart", b =>
+                {
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", "EntityUser")
+                        .WithMany()
+                        .HasForeignKey("IdEntityUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CO2Trade_Login_Register.Models.Projects.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("IdProject")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EntityUser");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.EntityProject", b =>

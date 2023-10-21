@@ -525,6 +525,34 @@ namespace CO2Trade_Login_Register.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ShoppingCarts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdProject = table.Column<int>(type: "int", nullable: false),
+                    Processed = table.Column<bool>(type: "bit", nullable: false),
+                    Canceled = table.Column<bool>(type: "bit", nullable: false),
+                    IdEntityUser = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_AspNetUsers_IdEntityUser",
+                        column: x => x.IdEntityUser,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_Projects_IdProject",
+                        column: x => x.IdProject,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "EntityTypes",
                 columns: new[] { "Id", "Description" },
@@ -687,6 +715,16 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "IX_Projects_IdProjectType",
                 table: "Projects",
                 column: "IdProjectType");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_IdEntityUser",
+                table: "ShoppingCarts",
+                column: "IdEntityUser");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_IdProject",
+                table: "ShoppingCarts",
+                column: "IdProject");
         }
 
         /// <inheritdoc />
@@ -727,6 +765,9 @@ namespace CO2Trade_Login_Register.Migrations
 
             migrationBuilder.DropTable(
                 name: "OperationProjects");
+
+            migrationBuilder.DropTable(
+                name: "ShoppingCarts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

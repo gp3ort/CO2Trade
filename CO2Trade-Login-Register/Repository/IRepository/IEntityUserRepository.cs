@@ -1,9 +1,10 @@
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
+using CO2Trade_Login_Register.Models.EntitiesUser;
 
 namespace CO2Trade_Login_Register.Repository.IRepository;
 
-public interface IEntityUserRepository
+public interface IEntityUserRepository : IRepository<EntityUser>
 {
     bool IsUniqueEntityUser(string username);
     Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
