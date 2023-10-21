@@ -31,10 +31,12 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IEntityUserRepository, EntityUserRepository>();
 builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IOperationRepository, OperationRepository>();
 //Service
 builder.Services.AddScoped<IEntityUserService, EntityUsersService>();
 builder.Services.AddScoped<ICertificateService, CertificateService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IOperationService, OperationService>();
 builder.Services.AddScoped<IMercadoPagoService, MercadoPagoService>();
 //Authentication
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
