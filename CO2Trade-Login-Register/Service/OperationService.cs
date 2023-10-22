@@ -35,6 +35,19 @@ public class OperationService : IOperationService
     {
         try
         {
+            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser);
+            if (shoppingCartExist != null)
+            {
+                if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
+                {
+                    _response.IsSuccess = false;
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.ErrorMessage.Add("You already have a cart");
+                    return _response; 
+                }
+                
+            }
+            
             Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartRequest.IdProject);
             EntityUser entityUser = await _entityUserRepo.GetAsync(x => x.Id == shoppingCartRequest.IdEntityUser);
             ShoppingCartResponseDTO responseDto = new ShoppingCartResponseDTO();
@@ -43,14 +56,6 @@ public class OperationService : IOperationService
             shoppingCart.Project = project;
             shoppingCart.IdEntityUser = entityUser.Id;
             shoppingCart.EntityUser = entityUser;
-            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == entityUser.Id);
-            if (shoppingCartExist != null)
-            {
-                _response.IsSuccess = false;
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.ErrorMessage.Add("You already have a cart");
-                return _response;
-            }
             await _operationRepository.CreateAsync(shoppingCart);
 
             _response.StatusCode = HttpStatusCode.Created;
@@ -67,4 +72,65 @@ public class OperationService : IOperationService
             return _response;
         }
     }
+
+    public async Task<APIResponse> CancelCart(ShoppingCartRequestDTO shoppingCartRequest)
+    {
+        try
+        {
+            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser);
+            if (shoppingCartExist.Canceled != null)
+            {
+                if (shoppingCartExist.Canceled == false)
+                {
+                    shoppingCartExist.Canceled = true;
+                   await _operationRepository.Update(shoppingCartExist);
+                   _response.StatusCode = HttpStatusCode.OK;
+                   _response.IsSuccess = true;
+                   _response.Result = shoppingCartExist.Project;
+                }
+            }
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add("Shopping Cart does not exist");
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+    }
+
+    public async Task<APIResponse> ProcessCart(ShoppingCartRequestDTO shoppingCartRequest)
+    {
+        try
+        {
+            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser);
+            if (shoppingCartExist.Canceled != null)
+            {
+                if (shoppingCartExist.Canceled == false)
+                {
+                    shoppingCartExist.Processed = true;
+                    await _operationRepository.Update(shoppingCartExist);
+                    _response.StatusCode = HttpStatusCode.OK;
+                    _response.IsSuccess = true;
+                    _response.Result = shoppingCartExist.Project;
+                }
+            }
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add("Shopping Cart does not exist");
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+    }    
+    
 }

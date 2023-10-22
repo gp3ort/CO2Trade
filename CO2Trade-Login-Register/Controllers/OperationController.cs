@@ -25,4 +25,17 @@ public class OperationController : ControllerBase
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
     
+    [HttpPost ("cancelCart")]
+    public async Task<IActionResult> CancelCart([FromBody] ShoppingCartRequestDTO shoppingCartRequest)
+    {
+        _response = await _operationService.CancelCart(shoppingCartRequest);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
+    
+    [HttpPost ("processCart")]
+    public async Task<IActionResult> ProcessCart([FromBody] ShoppingCartRequestDTO shoppingCartRequest)
+    {
+        _response = await _operationService.ProcessCart(shoppingCartRequest);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
 }
