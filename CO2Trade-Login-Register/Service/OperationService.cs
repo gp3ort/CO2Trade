@@ -82,11 +82,14 @@ public class OperationService : IOperationService
             {
                 if (shoppingCartExist.Canceled == false)
                 {
+                    Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartExist.IdProject);
+                    shoppingCartExist.Project = project;
                     shoppingCartExist.Canceled = true;
                    await _operationRepository.Update(shoppingCartExist);
                    _response.StatusCode = HttpStatusCode.OK;
                    _response.IsSuccess = true;
-                   _response.Result = shoppingCartExist.Project;
+                   _response.Result = shoppingCartExist;
+                   return _response;
                 }
             }
             _response.IsSuccess = false;
@@ -108,15 +111,18 @@ public class OperationService : IOperationService
         try
         {
             ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser);
-            if (shoppingCartExist.Canceled != null)
+            if (shoppingCartExist != null)
             {
-                if (shoppingCartExist.Canceled == false)
+                if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
                 {
+                    Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartExist.IdProject);
                     shoppingCartExist.Processed = true;
+                    shoppingCartExist.Project = project;
                     await _operationRepository.Update(shoppingCartExist);
                     _response.StatusCode = HttpStatusCode.OK;
                     _response.IsSuccess = true;
-                    _response.Result = shoppingCartExist.Project;
+                    _response.Result = project;
+                    return _response;
                 }
             }
             _response.IsSuccess = false;
