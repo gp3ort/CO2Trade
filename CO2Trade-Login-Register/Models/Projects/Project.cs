@@ -12,7 +12,7 @@ public class Project
     public decimal TonsOfOxygen { get; set; }
     public decimal Price { get; set; }
     [ForeignKey("ProjectType")]
-    public int IdProjectType { get; set; }
+    public int? IdProjectType { get; set; }
     public ProjectType? ProjectType { get; set; }
     public string Description { get; set; }
     [ForeignKey("Image")]
