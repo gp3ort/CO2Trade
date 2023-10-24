@@ -35,6 +35,7 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
     public DbSet<OperationProject> OperationProjects { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProjectType> ProjectTypes { get; set; }
+    public DbSet<ShoppingCart> ShoppingCarts { get; set; }
     
         
     protected override void OnModelCreating(ModelBuilder modelBuilder)
