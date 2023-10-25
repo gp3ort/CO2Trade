@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231024004359_initial")]
+    [Migration("20231025231253_initial")]
     partial class initial
     {
         /// <inheritdoc />

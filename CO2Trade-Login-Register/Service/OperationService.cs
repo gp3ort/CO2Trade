@@ -35,7 +35,7 @@ public class OperationService : IOperationService
     {
         try
         {
-            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser);
+            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser && x.Canceled == false && x.Processed == false);
             if (shoppingCartExist != null)
             {
                 if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
@@ -49,6 +49,13 @@ public class OperationService : IOperationService
             }
             
             Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartRequest.IdProject);
+            if (project.sold)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessage.Add("Project can not be added, because it's already sold");
+                return _response; 
+            }
             EntityUser entityUser = await _entityUserRepo.GetAsync(x => x.Id == shoppingCartRequest.IdEntityUser);
             ShoppingCartResponseDTO responseDto = new ShoppingCartResponseDTO();
             ShoppingCart shoppingCart = new ShoppingCart();
@@ -56,6 +63,8 @@ public class OperationService : IOperationService
             shoppingCart.Project = project;
             shoppingCart.IdEntityUser = entityUser.Id;
             shoppingCart.EntityUser = entityUser;
+            shoppingCart.Canceled = false;
+            shoppingCart.Processed = false;
             await _operationRepository.CreateAsync(shoppingCart);
 
             _response.StatusCode = HttpStatusCode.Created;
@@ -77,10 +86,10 @@ public class OperationService : IOperationService
     {
         try
         {
-            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser);
-            if (shoppingCartExist.Canceled != null)
+            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser && x.Canceled == false && x.Processed == false);
+            if (shoppingCartExist != null)
             {
-                if (shoppingCartExist.Canceled == false)
+                if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
                 {
                     Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartExist.IdProject);
                     shoppingCartExist.Project = project;
@@ -110,7 +119,7 @@ public class OperationService : IOperationService
     {
         try
         {
-            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser);
+            ShoppingCart shoppingCartExist = await _operationRepository.GetAsync(x => x.IdEntityUser == shoppingCartRequest.IdEntityUser && x.Canceled == false && x.Processed == false);
             if (shoppingCartExist != null)
             {
                 if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
@@ -118,6 +127,8 @@ public class OperationService : IOperationService
                     Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartExist.IdProject);
                     shoppingCartExist.Processed = true;
                     shoppingCartExist.Project = project;
+                    project.sold = true;
+                    await _projectRepository.Update(project);
                     await _operationRepository.Update(shoppingCartExist);
                     _response.StatusCode = HttpStatusCode.OK;
                     _response.IsSuccess = true;

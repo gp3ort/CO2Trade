@@ -12,8 +12,8 @@ public class ShoppingCart
     [ForeignKey("Project")]
     public int IdProject { get; set; }
     public Project? Project { get; set; }
-    public bool Processed { get; set; } = false;
-    public bool Canceled { get; set; } = false;
+    public bool Processed { get; set; }
+    public bool Canceled { get; set; }
     [ForeignKey("EntityUser")]
     public string IdEntityUser { get; set; }
     public EntityUser? EntityUser { get; set; }
