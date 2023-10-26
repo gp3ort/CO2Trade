@@ -15,9 +15,5 @@ public class OperationRepository : Repository<ShoppingCart>, IOperationRepositor
     {
         _db = db;
     }
-
-    public Task<ShoppingCartResponseDTO> AddCart(ShoppingCartRequestDTO shoppingCartRequest)
-    {
-        throw new NotImplementedException();
-    }
+    
 }

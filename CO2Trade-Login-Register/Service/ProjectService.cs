@@ -75,6 +75,8 @@ public class ProjectService : IProjectService
         try
         {
             Project project = await _projectRepository.GetAsync(x => x.Id == id);
+            Image image = await _imageRepository.GetAsync(x => x.Id == project.IdImage);
+            project.Image = image;
             _response.StatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
             _response.Result = _mapper.Map<ProjectResponseDTO>(project);
