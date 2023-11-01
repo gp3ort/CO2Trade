@@ -16,16 +16,19 @@ public class OperationService : IOperationService
     private readonly IOperationRepository _operationRepository;
     private readonly IProjectRepository _projectRepository;
     private readonly IEntityUserRepository _entityUserRepo;
+    private readonly IEntityProjectRepository _entityProjectRepository;
     
     private readonly IMapper _mapper;
     private APIResponse _response;
 
 
-    public OperationService(IOperationRepository operationRepository, IProjectRepository projectRepository, IEntityUserRepository entityUserRepository, IMapper mapper)
+    public OperationService(IOperationRepository operationRepository, IProjectRepository projectRepository, 
+        IEntityUserRepository entityUserRepository, IMapper mapper, IEntityProjectRepository entityProjectRepository)
     {
         _operationRepository = operationRepository;
         _projectRepository = projectRepository;
         _entityUserRepo = entityUserRepository;
+        _entityProjectRepository = entityProjectRepository;
         _response = new();
         _mapper = mapper;
     }
@@ -130,9 +133,15 @@ public class OperationService : IOperationService
                     project.sold = true;
                     await _projectRepository.Update(project);
                     await _operationRepository.Update(shoppingCartExist);
+                    EntityProject entityProject = new EntityProject();
+                    entityProject.IdProject = shoppingCartRequest.IdProject;
+                    entityProject.IdEntityUser = shoppingCartRequest.IdEntityUser;
+                    entityProject.Project = project;
+                    entityProject.EntityUser = await _entityUserRepo.GetAsync(x => x.Id == shoppingCartRequest.IdEntityUser);
+                    await _entityProjectRepository.CreateAsync(entityProject);
                     _response.StatusCode = HttpStatusCode.OK;
                     _response.IsSuccess = true;
-                    _response.Result = project;
+                    _response.Result = entityProject;
                     return _response;
                 }
             }

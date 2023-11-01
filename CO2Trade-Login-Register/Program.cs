@@ -33,6 +33,7 @@ builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IOperationRepository, OperationRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IEntityProjectRepository, EntityProjectRepository>();
 //Service
 builder.Services.AddScoped<IEntityUserService, EntityUsersService>();
 builder.Services.AddScoped<ICertificateService, CertificateService>();
