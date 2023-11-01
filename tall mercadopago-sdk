@@ -1,0 +1,15 @@
+  develop[m
+  feature/CFT-53-login-register-users[m
+  feature/CFT-66-create-database[m
+  feature/CFT-67-add-service-layer[m
+  feature/CFT-68-certificate-service[m
+  feature/CFT-69-add-validations-for-certificate-service[m
+  feature/CFT-71-new-endpoint-getcertificate[m
+  feature/CFT-72-new-service-projects[m
+* [32mfeature/CFT-74-mercado-pago[m
+  fix/add-bearer-to-swagger[m
+  fix/authentication[m
+  fix/cors[m
+  fix/databasegeneration-identity[m
+  main[m
+  test/test-entities[m

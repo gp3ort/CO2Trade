@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CO2Trade_Login_Register.Repository;
 
-public class EntityUserRepository : IEntityUserRepository
+public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepository
 {
     
     private readonly ApplicationDbContext _db;
@@ -23,7 +23,7 @@ public class EntityUserRepository : IEntityUserRepository
     private string secretKey;
     private readonly IMapper _mapper;
 
-    public EntityUserRepository(ApplicationDbContext db, UserManager<EntityUser> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IMapper mapper)
+    public EntityUserRepository(ApplicationDbContext db, UserManager<EntityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper) : base(db)
     {
         _db = db;
         _userManager = userManager;

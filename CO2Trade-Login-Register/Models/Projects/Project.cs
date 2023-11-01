@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CO2Trade_Login_Register.Models.GeneralSettings;
 
-namespace CO2Trade_Login_Register.Models.Project;
+namespace CO2Trade_Login_Register.Models.Projects;
 
 public class Project
 {
@@ -12,11 +12,11 @@ public class Project
     public decimal TonsOfOxygen { get; set; }
     public decimal Price { get; set; }
     [ForeignKey("ProjectType")]
-    public int IdProjectType { get; set; }
+    public int? IdProjectType { get; set; }
     public ProjectType? ProjectType { get; set; }
     public string Description { get; set; }
     [ForeignKey("Image")]
     public int IdImage { get; set; }
     public Image? Image { get; set; }
-    
+    public bool sold { get; set; } = false;
 }

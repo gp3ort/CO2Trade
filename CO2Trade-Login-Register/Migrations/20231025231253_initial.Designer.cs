@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231002220556_initial")]
+    [Migration("20231025231253_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -474,7 +474,37 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("Operations");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.EntityProject", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Canceled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IdEntityUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("IdProject")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Processed")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdEntityUser");
+
+                    b.HasIndex("IdProject");
+
+                    b.ToTable("ShoppingCarts");
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.EntityProject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -498,7 +528,7 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("EntityProjects");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.OperationProject", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.OperationProject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -524,7 +554,7 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("OperationProjects");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.Project", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -536,10 +566,13 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EntityUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("IdImage")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdProjectType")
+                    b.Property<int?>("IdProjectType")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -552,7 +585,12 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<decimal>("TonsOfOxygen")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<bool>("sold")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EntityUserId");
 
                     b.HasIndex("IdImage");
 
@@ -569,11 +607,12 @@ namespace CO2Trade_Login_Register.Migrations
                             IdProjectType = 1,
                             Name = "Project for TEST",
                             Price = 25m,
-                            TonsOfOxygen = 25m
+                            TonsOfOxygen = 25m,
+                            sold = false
                         });
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.ProjectType", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.ProjectType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -836,7 +875,7 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("EntityUser");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.EntityProject", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.ShoppingCart", b =>
                 {
                     b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", "EntityUser")
                         .WithMany()
@@ -844,7 +883,7 @@ namespace CO2Trade_Login_Register.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CO2Trade_Login_Register.Models.Project.Project", "Project")
+                    b.HasOne("CO2Trade_Login_Register.Models.Projects.Project", "Project")
                         .WithMany()
                         .HasForeignKey("IdProject")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -855,7 +894,26 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.OperationProject", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.EntityProject", b =>
+                {
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", "EntityUser")
+                        .WithMany()
+                        .HasForeignKey("IdEntityUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CO2Trade_Login_Register.Models.Projects.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("IdProject")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EntityUser");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.OperationProject", b =>
                 {
                     b.HasOne("CO2Trade_Login_Register.Models.Operations.Operation", "Operation")
                         .WithMany()
@@ -863,7 +921,7 @@ namespace CO2Trade_Login_Register.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CO2Trade_Login_Register.Models.Project.Project", "Project")
+                    b.HasOne("CO2Trade_Login_Register.Models.Projects.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId");
 
@@ -872,19 +930,21 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Project.Project", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.Project", b =>
                 {
+                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("EntityUserId");
+
                     b.HasOne("CO2Trade_Login_Register.Models.GeneralSettings.Image", "Image")
                         .WithMany()
                         .HasForeignKey("IdImage")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CO2Trade_Login_Register.Models.Project.ProjectType", "ProjectType")
+                    b.HasOne("CO2Trade_Login_Register.Models.Projects.ProjectType", "ProjectType")
                         .WithMany()
-                        .HasForeignKey("IdProjectType")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdProjectType");
 
                     b.Navigation("Image");
 
@@ -940,6 +1000,11 @@ namespace CO2Trade_Login_Register.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }
