@@ -9,4 +9,5 @@ public class ProjectResponseDTO
     public decimal Price { get; set; }
     public string Description { get; set; }
     public Image? Image { get; set; }
+    public bool sold { get; set; }
 }
