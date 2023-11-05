@@ -4,5 +4,5 @@ namespace CO2Trade_Login_Register.Repository.IRepository;
 
 public interface IProjectRepository : IRepository<Project>
 {
-    
+    public Task<List<Project>> getAllAvailableProjects();
 }

@@ -70,6 +70,30 @@ public class ProjectService : IProjectService
         }
     }
 
+    public async Task<APIResponse> GetAllAvailableProjects()
+    {
+        try
+        {
+            List<Project> projects = await _projectRepository.getAllAvailableProjects();
+            List<Image> images = await _imageRepository.GetAllAsync();
+            foreach (var project in projects)
+            {
+                project.Image = images.Find(img => img.Id == project.IdImage);
+            }
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = _mapper.Map<List<ProjectResponseDTO>>(projects);
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+    }
+    
     public async Task<APIResponse> GetProject(int id)
     {
         try

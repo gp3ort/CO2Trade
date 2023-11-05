@@ -31,6 +31,13 @@ public class ProjectController : ControllerBase
         _response = await _projectService.GetAllProjects();
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
+    
+    [HttpGet("getAvailablePorjects")]
+    public async Task<IActionResult> GetAvailablePorjects()
+    {
+        _response = await _projectService.GetAllAvailableProjects();
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
 
     [HttpGet("getProject")]
     public async Task<IActionResult> GetProject(int id)
