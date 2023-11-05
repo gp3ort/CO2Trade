@@ -12,6 +12,11 @@ public class ProjectRepository : Repository<Project>, IProjectRepository
     {
         _db = db;
     }
-    
-    
+
+    public async Task<List<Project>> getAllAvailableProjects()
+    {
+        return await GetAllAsync(x => x.sold == false);
+    }
+
+
 }
