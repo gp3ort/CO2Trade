@@ -4,4 +4,5 @@ public class MeasureResponseDTO
 {
     public EntityUserDTO EntityUserDto { get; set; }
     public float? CO2Measure { get; set; }
+    public DateTime ExpirationDate { get; set; }
 }

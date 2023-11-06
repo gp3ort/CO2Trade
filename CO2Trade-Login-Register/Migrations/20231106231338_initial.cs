@@ -359,7 +359,7 @@ namespace CO2Trade_Login_Register.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdEntidad = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Co2E = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CO2Measure = table.Column<float>(type: "real", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

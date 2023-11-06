@@ -12,6 +12,6 @@ public class MeasureCO2
     public string IdEntidad { get; set; }
     public EntityUser? EntityUser { get; set; }
     public DateTime DateTime { get; set; }
-    public decimal Co2E { get; set; }
+    public float CO2Measure { get; set; }
     public DateTime ExpirationDate { get; set; }
 }

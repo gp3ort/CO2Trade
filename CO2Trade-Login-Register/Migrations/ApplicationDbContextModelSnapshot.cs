@@ -389,8 +389,8 @@ namespace CO2Trade_Login_Register.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Co2E")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("CO2Measure")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231106223151_initial")]
+    [Migration("20231106231338_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -392,8 +392,8 @@ namespace CO2Trade_Login_Register.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Co2E")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("CO2Measure")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");

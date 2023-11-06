@@ -7,6 +7,7 @@ using CO2Trade_Login_Register.DTO;
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models.EntitiesUser;
+using CO2Trade_Login_Register.Models.Measure;
 using CO2Trade_Login_Register.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -138,11 +139,24 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         }
         entityUser.CO2Measure += measureRequestDto.CO2Measure;
         await Update(entityUser);
+        createMeasure(entityUser, measureRequestDto);
         return new MeasureResponseDTO()
         {
             EntityUserDto = _mapper.Map<EntityUserDTO>(entityUser),
-            CO2Measure = entityUser.CO2Measure
+            CO2Measure = entityUser.CO2Measure,
+            ExpirationDate = measureRequestDto.ExpirationDate.ToDateTime(TimeOnly.MinValue)
         };
+    }
+
+    private async void createMeasure(EntityUser entityUser, MeasureRequestDTO measureRequestDto)
+    {
+        MeasureCO2 measureCo2 = new MeasureCO2();
+        measureCo2.CO2Measure = entityUser.CO2Measure;
+        measureCo2.EntityUser = entityUser;
+        measureCo2.ExpirationDate = measureRequestDto.ExpirationDate.ToDateTime(TimeOnly.MinValue);
+        measureCo2.DateTime = DateTime.Now;
+        measureCo2.IdEntidad = entityUser.Id;
+        await _db.MeasureCo2s.AddAsync(measureCo2);
     }
 
     private int GetRol(int id)
