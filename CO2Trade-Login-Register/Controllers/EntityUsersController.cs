@@ -30,4 +30,11 @@ public class EntityUsersController : ControllerBase
         _response = _entityUsersService.Register(model).Result;
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
+
+    [HttpPost("addCO2")]
+    public async Task<IActionResult> AddMeasure([FromBody] MeasureRequestDTO measureRequestDto)
+    {
+        _response = await _entityUsersService.AddCO2(measureRequestDto);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
 }

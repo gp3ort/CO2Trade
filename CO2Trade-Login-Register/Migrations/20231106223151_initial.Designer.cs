@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231025231253_initial")]
+    [Migration("20231106223151_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -201,6 +201,9 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<string>("BusinessName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("CO2Measure")
+                        .HasColumnType("real");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

@@ -129,6 +129,22 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         return new RegistrationResponseDTO();
     }
 
+    public async Task<MeasureResponseDTO> AddCO2(MeasureRequestDTO measureRequestDto)
+    {
+        EntityUser entityUser = await GetAsync(x => x.Id == measureRequestDto.EntityUserId);
+        if (entityUser == null)
+        {
+            return null;
+        }
+        entityUser.CO2Measure += measureRequestDto.CO2Measure;
+        await Update(entityUser);
+        return new MeasureResponseDTO()
+        {
+            EntityUserDto = _mapper.Map<EntityUserDTO>(entityUser),
+            CO2Measure = entityUser.CO2Measure
+        };
+    }
+
     private int GetRol(int id)
     {
         switch (id)

@@ -9,4 +9,5 @@ public interface IEntityUserRepository : IRepository<EntityUser>
     bool IsUniqueEntityUser(string username);
     Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
     Task<RegistrationResponseDTO> Register(RegistrationRequestDTO registrationRequestDTO);
+    Task<MeasureResponseDTO> AddCO2(MeasureRequestDTO measureRequestDto);
 }

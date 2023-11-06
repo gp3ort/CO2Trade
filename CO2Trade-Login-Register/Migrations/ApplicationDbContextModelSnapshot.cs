@@ -199,6 +199,9 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("CO2Measure")
+                        .HasColumnType("real");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
