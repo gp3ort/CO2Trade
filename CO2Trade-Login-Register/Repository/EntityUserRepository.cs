@@ -156,7 +156,9 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         measureCo2.ExpirationDate = measureRequestDto.ExpirationDate.ToDateTime(TimeOnly.MinValue);
         measureCo2.DateTime = DateTime.Now;
         measureCo2.IdEntidad = entityUser.Id;
+        measureCo2.BusinessName = entityUser.BusinessName;
         await _db.MeasureCo2s.AddAsync(measureCo2);
+        await _db.SaveChangesAsync();
     }
 
     private int GetRol(int id)

@@ -389,6 +389,10 @@ namespace CO2Trade_Login_Register.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BusinessName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("CO2Measure")
                         .HasColumnType("real");
 

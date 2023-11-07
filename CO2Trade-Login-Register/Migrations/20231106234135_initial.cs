@@ -360,6 +360,7 @@ namespace CO2Trade_Login_Register.Migrations
                     IdEntidad = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CO2Measure = table.Column<float>(type: "real", nullable: false),
+                    BusinessName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
