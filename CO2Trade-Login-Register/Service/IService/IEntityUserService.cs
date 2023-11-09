@@ -5,6 +5,8 @@ namespace CO2Trade_Login_Register.Service.IService;
 
 public interface IEntityUserService
 {
-    Task<APIResponse> LoginUser(LoginRequestDTO model);
-    Task<APIResponse> Register(RegistrationRequestDTO model);
+    Task<APIResponse> LoginUser(LoginRequestDTO loginRequestDto);
+    Task<APIResponse> Register(RegistrationRequestDTO registrationRequestDto);
+    Task<APIResponse> AddCO2(MeasureRequestDTO measureRequestDto);
+    Task<APIResponse> MyProjects(string idEntityUser);
 }

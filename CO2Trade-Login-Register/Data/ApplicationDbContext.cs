@@ -1,5 +1,3 @@
-using CO2Trade_Login_Register.Models.Billing;
-using CO2Trade_Login_Register.Models.Documents;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Models.GeneralSettings;
 using CO2Trade_Login_Register.Models.Measure;
@@ -20,24 +18,17 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
     public DbSet<EntityUser> EntityUsers { get; set; }
     public DbSet<Rol> Roles { get; set; }
     public DbSet<EntityType> EntityTypes { get; set; }
-    public DbSet<Bill> Bills { get; set; }
-    public DbSet<TaxCondition> TaxConditions { get; set; }
-    public DbSet<TaxDocumentType> TaxDocumentTypes { get; set; }
-    public DbSet<Document> Documents { get; set; }
-    public DbSet<DocumentType> DocumentTypes { get; set; }
-    public DbSet<EntityDocument> EntityDocuments { get; set; }
-    public DbSet<Configuration> Configurations { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<MeasureCO2> MeasureCo2s { get; set; }
     public DbSet<Certificate> Certificates { get; set; }
-    public DbSet<Operation> Operations { get; set; }
+    public DbSet<OperationCertificate> OperationsCertificates { get; set; }
     public DbSet<EntityProject> EntityProjects { get; set; }
     public DbSet<OperationProject> OperationProjects { get; set; }
     public DbSet<Project> Projects { get; set; }
-    public DbSet<ProjectType> ProjectTypes { get; set; }
     public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-    
-        
+    public DbSet<Purchase> Purchases { get; set; }
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -90,19 +81,10 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
                     Name = "Project for TEST",
                     TonsOfOxygen = 25,
                     Price = 25,
-                    IdProjectType = 1,
-                    ProjectType = null,
                     Description = "Just a test project",
                     IdImage = 1,
                     Image = null
                 }
             );
-
-            modelBuilder.Entity<ProjectType>().HasData(
-                new ProjectType
-                {
-                    Id = 1,
-                    Description = "Project type testing",
-                });
         }
 }

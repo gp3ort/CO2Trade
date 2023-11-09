@@ -17,18 +17,21 @@ public class OperationService : IOperationService
     private readonly IProjectRepository _projectRepository;
     private readonly IEntityUserRepository _entityUserRepo;
     private readonly IEntityProjectRepository _entityProjectRepository;
+    private readonly IPurchaseRepository _purchaseRepository;
     
     private readonly IMapper _mapper;
     private APIResponse _response;
 
 
     public OperationService(IOperationRepository operationRepository, IProjectRepository projectRepository, 
-        IEntityUserRepository entityUserRepository, IMapper mapper, IEntityProjectRepository entityProjectRepository)
+        IEntityUserRepository entityUserRepository, IMapper mapper, IEntityProjectRepository entityProjectRepository,
+        IPurchaseRepository purchaseRepository)
     {
         _operationRepository = operationRepository;
         _projectRepository = projectRepository;
         _entityUserRepo = entityUserRepository;
         _entityProjectRepository = entityProjectRepository;
+        _purchaseRepository = purchaseRepository;
         _response = new();
         _mapper = mapper;
     }
@@ -133,12 +136,28 @@ public class OperationService : IOperationService
                     project.sold = true;
                     await _projectRepository.Update(project);
                     await _operationRepository.Update(shoppingCartExist);
+                    _operationRepository.CreateOperationProject(shoppingCartExist.Id, shoppingCartExist.IdProject,
+                        shoppingCartExist.IdEntityUser);
+
+                    Purchase purchase = new Purchase()
+                    {
+                        IdEntityUser = shoppingCartExist.IdEntityUser,
+                        IdShoppingCart = shoppingCartExist.Id,
+                        IdProject = shoppingCartExist.IdProject,
+                        Total = project.Price,
+                        DateTime = DateTime.Now,
+                        OrderNumber = shoppingCartExist.Id
+                    };
+                    await _purchaseRepository.CreateAsync(purchase);
+                    
                     EntityProject entityProject = new EntityProject();
                     entityProject.IdProject = shoppingCartRequest.IdProject;
                     entityProject.IdEntityUser = shoppingCartRequest.IdEntityUser;
                     entityProject.Project = project;
                     entityProject.EntityUser = await _entityUserRepo.GetAsync(x => x.Id == shoppingCartRequest.IdEntityUser);
                     await _entityProjectRepository.CreateAsync(entityProject);
+                    
+                    
                     _response.StatusCode = HttpStatusCode.OK;
                     _response.IsSuccess = true;
                     _response.Result = entityProject;
@@ -157,6 +176,5 @@ public class OperationService : IOperationService
             _response.ErrorMessage.Add(e.Message);
             return _response;
         }
-    }    
-    
+    }
 }

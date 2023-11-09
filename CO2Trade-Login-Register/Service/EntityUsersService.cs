@@ -1,5 +1,6 @@
 using System.Net;
 using CO2Trade_Login_Register.DTO.RequestDTO;
+using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Repository.IRepository;
 using CO2Trade_Login_Register.Service.IService;
@@ -56,5 +57,51 @@ public class EntityUsersService : IEntityUserService
         _response.IsSuccess = true;
         _response.Result = user;
         return _response;
+    }
+
+    public async Task<APIResponse> AddCO2(MeasureRequestDTO measureRequestDto)
+    {
+        try
+        {
+            MeasureResponseDTO measureResponseDto = await _entityUserRepo.AddCO2(measureRequestDto);
+            if (measureResponseDto == null)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessage.Add("Error - user don't exist.");
+                return _response;
+            }
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.Result = measureResponseDto;
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+        
+    }
+
+    public async Task<APIResponse> MyProjects(string idEntityUser)
+    {
+        try
+        {
+            List<ProjectResponseDTO> projectResponseDtos = await _entityUserRepo.MyProjects(idEntityUser);
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.Result = projectResponseDtos;
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
     }
 }

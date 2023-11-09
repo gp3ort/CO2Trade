@@ -7,6 +7,9 @@ using CO2Trade_Login_Register.DTO;
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models.EntitiesUser;
+using CO2Trade_Login_Register.Models.Measure;
+using CO2Trade_Login_Register.Models.Operations;
+using CO2Trade_Login_Register.Models.Projects;
 using CO2Trade_Login_Register.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,16 +19,21 @@ namespace CO2Trade_Login_Register.Repository;
 
 public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepository
 {
-    
+    private readonly IPurchaseRepository _purchaseRepository;
+    private readonly IProjectRepository _projectRepository;
     private readonly ApplicationDbContext _db;
     private readonly UserManager<EntityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private string secretKey;
     private readonly IMapper _mapper;
 
-    public EntityUserRepository(ApplicationDbContext db, UserManager<EntityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper) : base(db)
+    public EntityUserRepository(ApplicationDbContext db, UserManager<EntityUser> userManager, 
+        RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper, 
+        IPurchaseRepository purchaseRepository, IProjectRepository projectRepository) : base(db)
     {
         _db = db;
+        _purchaseRepository = purchaseRepository;
+        _projectRepository = projectRepository;
         _userManager = userManager;
         _roleManager = roleManager;
         secretKey = configuration.GetValue<string>("ApiSettings:Secret");
@@ -127,6 +135,52 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         }
 
         return new RegistrationResponseDTO();
+    }
+
+    public async Task<MeasureResponseDTO> AddCO2(MeasureRequestDTO measureRequestDto)
+    {
+        EntityUser entityUser = await GetAsync(x => x.Id == measureRequestDto.EntityUserId);
+        if (entityUser == null)
+        {
+            return null;
+        }
+        entityUser.CO2Measure += measureRequestDto.CO2Measure;
+        await Update(entityUser);
+        createMeasure(entityUser, measureRequestDto);
+        return new MeasureResponseDTO()
+        {
+            EntityUserDto = _mapper.Map<EntityUserDTO>(entityUser),
+            CO2Measure = entityUser.CO2Measure,
+            ExpirationDate = measureRequestDto.ExpirationDate.ToDateTime(TimeOnly.MinValue)
+        };
+    }
+
+    public async Task<List<ProjectResponseDTO>> MyProjects(string idEntityUser)
+    {
+        List<Purchase> myPurchases = await _purchaseRepository.GetAllAsync(p => p.IdEntityUser.Equals(idEntityUser));
+        List<Project> projects = new List<Project>();
+        foreach (var purchase in myPurchases)
+        {
+            projects.Add(await _projectRepository.GetAsync(p => p.Id == purchase.IdProject));
+        }
+
+        List<ProjectResponseDTO> projectResponseDtos = _mapper.Map<List<ProjectResponseDTO>>(projects);
+
+        return projectResponseDtos;
+    }
+
+
+    private async void createMeasure(EntityUser entityUser, MeasureRequestDTO measureRequestDto)
+    {
+        MeasureCO2 measureCo2 = new MeasureCO2();
+        measureCo2.CO2Measure = entityUser.CO2Measure;
+        measureCo2.EntityUser = entityUser;
+        measureCo2.ExpirationDate = measureRequestDto.ExpirationDate.ToDateTime(TimeOnly.MinValue);
+        measureCo2.DateTime = DateTime.Now;
+        measureCo2.IdEntidad = entityUser.Id;
+        measureCo2.BusinessName = entityUser.BusinessName;
+        await _db.MeasureCo2s.AddAsync(measureCo2);
+        await _db.SaveChangesAsync();
     }
 
     private int GetRol(int id)
