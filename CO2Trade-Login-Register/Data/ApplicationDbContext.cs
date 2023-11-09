@@ -20,7 +20,6 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
     public DbSet<EntityUser> EntityUsers { get; set; }
     public DbSet<Rol> Roles { get; set; }
     public DbSet<EntityType> EntityTypes { get; set; }
-    public DbSet<Bill> Bills { get; set; }
     public DbSet<TaxCondition> TaxConditions { get; set; }
     public DbSet<TaxDocumentType> TaxDocumentTypes { get; set; }
     public DbSet<Document> Documents { get; set; }
@@ -30,7 +29,7 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
     public DbSet<Image> Images { get; set; }
     public DbSet<MeasureCO2> MeasureCo2s { get; set; }
     public DbSet<Certificate> Certificates { get; set; }
-    public DbSet<Operation> Operations { get; set; }
+    public DbSet<OperationCertificate> OperationsCertificates { get; set; }
     public DbSet<EntityProject> EntityProjects { get; set; }
     public DbSet<OperationProject> OperationProjects { get; set; }
     public DbSet<Project> Projects { get; set; }

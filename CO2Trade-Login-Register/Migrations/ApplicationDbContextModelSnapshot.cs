@@ -22,43 +22,6 @@ namespace CO2Trade_Login_Register.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.Bill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("GrossTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("IdOperacion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTaxCondition")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTaxDocumentType")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("NetTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("OperationDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdOperacion");
-
-                    b.HasIndex("IdTaxCondition");
-
-                    b.HasIndex("IdTaxDocumentType");
-
-                    b.ToTable("Bills");
-                });
-
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.TaxCondition", b =>
                 {
                     b.Property<int>("Id")
@@ -448,7 +411,7 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("Certificates");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Operation", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.OperationCertificate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -475,7 +438,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasIndex("IdEntityUser");
 
-                    b.ToTable("Operations");
+                    b.ToTable("OperationsCertificates");
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.ShoppingCart", b =>
@@ -540,20 +503,17 @@ namespace CO2Trade_Login_Register.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("IdOperation")
-                        .HasColumnType("int");
+                    b.Property<string>("IdEntityUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdProject")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProjectId")
+                    b.Property<int>("IdShoppingCart")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdOperation");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("OperationProjects");
                 });
@@ -569,9 +529,6 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EntityUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("IdImage")
                         .HasColumnType("int");
@@ -593,8 +550,6 @@ namespace CO2Trade_Login_Register.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityUserId");
 
                     b.HasIndex("IdImage");
 
@@ -773,33 +728,6 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.Bill", b =>
-                {
-                    b.HasOne("CO2Trade_Login_Register.Models.Operations.Operation", "Operation")
-                        .WithMany()
-                        .HasForeignKey("IdOperacion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CO2Trade_Login_Register.Models.Billing.TaxCondition", "TaxCondition")
-                        .WithMany()
-                        .HasForeignKey("IdTaxCondition")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CO2Trade_Login_Register.Models.Billing.TaxDocumentType", "TaxDocumentType")
-                        .WithMany()
-                        .HasForeignKey("IdTaxDocumentType")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Operation");
-
-                    b.Navigation("TaxCondition");
-
-                    b.Navigation("TaxDocumentType");
-                });
-
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Documents.EntityDocument", b =>
                 {
                     b.HasOne("CO2Trade_Login_Register.Models.Documents.Document", "Document")
@@ -860,7 +788,7 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("EntityUser");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Operation", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.OperationCertificate", b =>
                 {
                     b.HasOne("CO2Trade_Login_Register.Models.Operations.Certificate", "Certificate")
                         .WithMany()
@@ -917,29 +845,8 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.OperationProject", b =>
-                {
-                    b.HasOne("CO2Trade_Login_Register.Models.Operations.Operation", "Operation")
-                        .WithMany()
-                        .HasForeignKey("IdOperation")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CO2Trade_Login_Register.Models.Projects.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
-
-                    b.Navigation("Operation");
-
-                    b.Navigation("Project");
-                });
-
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.Project", b =>
                 {
-                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", null)
-                        .WithMany("Projects")
-                        .HasForeignKey("EntityUserId");
-
                     b.HasOne("CO2Trade_Login_Register.Models.GeneralSettings.Image", "Image")
                         .WithMany()
                         .HasForeignKey("IdImage")
@@ -1004,11 +911,6 @@ namespace CO2Trade_Login_Register.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", b =>
-                {
-                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

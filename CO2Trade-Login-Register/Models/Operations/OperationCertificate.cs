@@ -4,7 +4,7 @@ using CO2Trade_Login_Register.Models.EntitiesUser;
 
 namespace CO2Trade_Login_Register.Models.Operations;
 
-public class Operation
+public class OperationCertificate
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id{ get; set; }

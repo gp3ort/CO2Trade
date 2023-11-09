@@ -133,12 +133,17 @@ public class OperationService : IOperationService
                     project.sold = true;
                     await _projectRepository.Update(project);
                     await _operationRepository.Update(shoppingCartExist);
+                    _operationRepository.CreateOperationProject(shoppingCartExist.Id, shoppingCartExist.IdProject,
+                        shoppingCartExist.IdEntityUser);
+                    
                     EntityProject entityProject = new EntityProject();
                     entityProject.IdProject = shoppingCartRequest.IdProject;
                     entityProject.IdEntityUser = shoppingCartRequest.IdEntityUser;
                     entityProject.Project = project;
                     entityProject.EntityUser = await _entityUserRepo.GetAsync(x => x.Id == shoppingCartRequest.IdEntityUser);
                     await _entityProjectRepository.CreateAsync(entityProject);
+                    
+                    
                     _response.StatusCode = HttpStatusCode.OK;
                     _response.IsSuccess = true;
                     _response.Result = entityProject;
@@ -157,6 +162,5 @@ public class OperationService : IOperationService
             _response.ErrorMessage.Add(e.Message);
             return _response;
         }
-    }    
-    
+    }
 }
