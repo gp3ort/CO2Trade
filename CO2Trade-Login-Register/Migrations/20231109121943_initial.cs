@@ -46,32 +46,6 @@ namespace CO2Trade_Login_Register.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Documents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Documents", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DocumentTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EntityTypes",
                 columns: table => new
                 {
@@ -114,16 +88,20 @@ namespace CO2Trade_Login_Register.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectTypes",
+                name: "Purchases",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IdEntityUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdShoppingCart = table.Column<int>(type: "int", nullable: false),
+                    total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrderNumber = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectTypes", x => x.Id);
+                    table.PrimaryKey("PK_Purchases", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -138,33 +116,6 @@ namespace CO2Trade_Login_Register.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TaxConditions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TaxRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaxConditions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TaxDocumentTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaxDocumentTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -189,30 +140,6 @@ namespace CO2Trade_Login_Register.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Configurations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PlatformName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdLogo = table.Column<int>(type: "int", nullable: false),
-                    Ip = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    puerto = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Configurations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Configurations_Images_IdLogo",
-                        column: x => x.IdLogo,
-                        principalTable: "Images",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -221,7 +148,6 @@ namespace CO2Trade_Login_Register.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TonsOfOxygen = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IdProjectType = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdImage = table.Column<int>(type: "int", nullable: false),
                     sold = table.Column<bool>(type: "bit", nullable: false)
@@ -235,11 +161,6 @@ namespace CO2Trade_Login_Register.Migrations
                         principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Projects_ProjectTypes_IdProjectType",
-                        column: x => x.IdProjectType,
-                        principalTable: "ProjectTypes",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -371,32 +292,6 @@ namespace CO2Trade_Login_Register.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EntityDocuments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdEntidad = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IdDocument = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EntityDocuments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EntityDocuments_AspNetUsers_IdEntidad",
-                        column: x => x.IdEntidad,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EntityDocuments_Documents_IdDocument",
-                        column: x => x.IdDocument,
-                        principalTable: "Documents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EntityProjects",
                 columns: table => new
                 {
@@ -516,11 +411,6 @@ namespace CO2Trade_Login_Register.Migrations
                 values: new object[] { 1, "just testing", "Test for test" });
 
             migrationBuilder.InsertData(
-                table: "ProjectTypes",
-                columns: new[] { "Id", "Description" },
-                values: new object[] { 1, "Project type testing" });
-
-            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
@@ -532,8 +422,8 @@ namespace CO2Trade_Login_Register.Migrations
 
             migrationBuilder.InsertData(
                 table: "Projects",
-                columns: new[] { "Id", "Description", "IdImage", "IdProjectType", "Name", "Price", "TonsOfOxygen", "sold" },
-                values: new object[] { 1, "Just a test project", 1, 1, "Project for TEST", 25m, 25m, false });
+                columns: new[] { "Id", "Description", "IdImage", "Name", "Price", "TonsOfOxygen", "sold" },
+                values: new object[] { 1, "Just a test project", 1, "Project for TEST", 25m, 25m, false });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -585,21 +475,6 @@ namespace CO2Trade_Login_Register.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Configurations_IdLogo",
-                table: "Configurations",
-                column: "IdLogo");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EntityDocuments_IdDocument",
-                table: "EntityDocuments",
-                column: "IdDocument");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EntityDocuments_IdEntidad",
-                table: "EntityDocuments",
-                column: "IdEntidad");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_EntityProjects_IdEntityUser",
                 table: "EntityProjects",
                 column: "IdEntityUser");
@@ -628,11 +503,6 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "IX_Projects_IdImage",
                 table: "Projects",
                 column: "IdImage");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Projects_IdProjectType",
-                table: "Projects",
-                column: "IdProjectType");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShoppingCarts_IdEntityUser",
@@ -664,15 +534,6 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Configurations");
-
-            migrationBuilder.DropTable(
-                name: "DocumentTypes");
-
-            migrationBuilder.DropTable(
-                name: "EntityDocuments");
-
-            migrationBuilder.DropTable(
                 name: "EntityProjects");
 
             migrationBuilder.DropTable(
@@ -685,19 +546,13 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "OperationsCertificates");
 
             migrationBuilder.DropTable(
+                name: "Purchases");
+
+            migrationBuilder.DropTable(
                 name: "ShoppingCarts");
 
             migrationBuilder.DropTable(
-                name: "TaxConditions");
-
-            migrationBuilder.DropTable(
-                name: "TaxDocumentTypes");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Documents");
 
             migrationBuilder.DropTable(
                 name: "Certificates");
@@ -716,9 +571,6 @@ namespace CO2Trade_Login_Register.Migrations
 
             migrationBuilder.DropTable(
                 name: "Images");
-
-            migrationBuilder.DropTable(
-                name: "ProjectTypes");
         }
     }
 }

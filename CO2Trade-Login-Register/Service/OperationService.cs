@@ -17,18 +17,21 @@ public class OperationService : IOperationService
     private readonly IProjectRepository _projectRepository;
     private readonly IEntityUserRepository _entityUserRepo;
     private readonly IEntityProjectRepository _entityProjectRepository;
+    private readonly IPurchaseRepository _purchaseRepository;
     
     private readonly IMapper _mapper;
     private APIResponse _response;
 
 
     public OperationService(IOperationRepository operationRepository, IProjectRepository projectRepository, 
-        IEntityUserRepository entityUserRepository, IMapper mapper, IEntityProjectRepository entityProjectRepository)
+        IEntityUserRepository entityUserRepository, IMapper mapper, IEntityProjectRepository entityProjectRepository,
+        IPurchaseRepository purchaseRepository)
     {
         _operationRepository = operationRepository;
         _projectRepository = projectRepository;
         _entityUserRepo = entityUserRepository;
         _entityProjectRepository = entityProjectRepository;
+        _purchaseRepository = purchaseRepository;
         _response = new();
         _mapper = mapper;
     }
@@ -135,6 +138,16 @@ public class OperationService : IOperationService
                     await _operationRepository.Update(shoppingCartExist);
                     _operationRepository.CreateOperationProject(shoppingCartExist.Id, shoppingCartExist.IdProject,
                         shoppingCartExist.IdEntityUser);
+
+                    Purchase purchase = new Purchase()
+                    {
+                        IdEntityUser = shoppingCartExist.IdEntityUser,
+                        IdShoppingCart = shoppingCartExist.Id,
+                        Total = project.Price,
+                        DateTime = DateTime.Now,
+                        OrderNumber = shoppingCartExist.Id
+                    };
+                    await _purchaseRepository.CreateAsync(purchase);
                     
                     EntityProject entityProject = new EntityProject();
                     entityProject.IdProject = shoppingCartRequest.IdProject;

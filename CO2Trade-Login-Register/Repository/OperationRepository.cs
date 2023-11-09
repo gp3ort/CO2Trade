@@ -1,4 +1,5 @@
 using CO2Trade_Login_Register.Data;
+using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Models.Operations;
 using CO2Trade_Login_Register.Models.Projects;
 using CO2Trade_Login_Register.Repository.IRepository;
