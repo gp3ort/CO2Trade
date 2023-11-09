@@ -95,7 +95,8 @@ namespace CO2Trade_Login_Register.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdEntityUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdShoppingCart = table.Column<int>(type: "int", nullable: false),
-                    total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IdProject = table.Column<int>(type: "int", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderNumber = table.Column<int>(type: "int", nullable: false)
                 },

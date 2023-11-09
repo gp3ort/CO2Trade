@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231109121943_initial")]
+    [Migration("20231109200008_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -327,13 +327,16 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IdProject")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdShoppingCart")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("total")
+                    b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");

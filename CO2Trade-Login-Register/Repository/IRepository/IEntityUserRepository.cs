@@ -10,4 +10,5 @@ public interface IEntityUserRepository : IRepository<EntityUser>
     Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
     Task<RegistrationResponseDTO> Register(RegistrationRequestDTO registrationRequestDTO);
     Task<MeasureResponseDTO> AddCO2(MeasureRequestDTO measureRequestDto);
+    Task<List<ProjectResponseDTO>> MyProjects(string idEntityUser);
 }

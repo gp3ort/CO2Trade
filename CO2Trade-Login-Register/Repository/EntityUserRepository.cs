@@ -8,6 +8,8 @@ using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Models.Measure;
+using CO2Trade_Login_Register.Models.Operations;
+using CO2Trade_Login_Register.Models.Projects;
 using CO2Trade_Login_Register.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,16 +19,21 @@ namespace CO2Trade_Login_Register.Repository;
 
 public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepository
 {
-    
+    private readonly IPurchaseRepository _purchaseRepository;
+    private readonly IProjectRepository _projectRepository;
     private readonly ApplicationDbContext _db;
     private readonly UserManager<EntityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private string secretKey;
     private readonly IMapper _mapper;
 
-    public EntityUserRepository(ApplicationDbContext db, UserManager<EntityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper) : base(db)
+    public EntityUserRepository(ApplicationDbContext db, UserManager<EntityUser> userManager, 
+        RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper, 
+        IPurchaseRepository purchaseRepository, IProjectRepository projectRepository) : base(db)
     {
         _db = db;
+        _purchaseRepository = purchaseRepository;
+        _projectRepository = projectRepository;
         _userManager = userManager;
         _roleManager = roleManager;
         secretKey = configuration.GetValue<string>("ApiSettings:Secret");
@@ -147,6 +154,21 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
             ExpirationDate = measureRequestDto.ExpirationDate.ToDateTime(TimeOnly.MinValue)
         };
     }
+
+    public async Task<List<ProjectResponseDTO>> MyProjects(string idEntityUser)
+    {
+        List<Purchase> myPurchases = await _purchaseRepository.GetAllAsync(p => p.IdEntityUser.Equals(idEntityUser));
+        List<Project> projects = new List<Project>();
+        foreach (var purchase in myPurchases)
+        {
+            projects.Add(await _projectRepository.GetAsync(p => p.Id == purchase.IdProject));
+        }
+
+        List<ProjectResponseDTO> projectResponseDtos = _mapper.Map<List<ProjectResponseDTO>>(projects);
+
+        return projectResponseDtos;
+    }
+
 
     private async void createMeasure(EntityUser entityUser, MeasureRequestDTO measureRequestDto)
     {

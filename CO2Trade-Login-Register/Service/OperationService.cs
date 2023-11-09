@@ -143,6 +143,7 @@ public class OperationService : IOperationService
                     {
                         IdEntityUser = shoppingCartExist.IdEntityUser,
                         IdShoppingCart = shoppingCartExist.Id,
+                        IdProject = shoppingCartExist.IdProject,
                         Total = project.Price,
                         DateTime = DateTime.Now,
                         OrderNumber = shoppingCartExist.Id

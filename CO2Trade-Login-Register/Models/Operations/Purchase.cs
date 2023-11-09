@@ -11,6 +11,8 @@ public class Purchase
     public string IdEntityUser { get; set; }
     [ForeignKey("ShoppingCart")]
     public int IdShoppingCart { get; set; }
+    [ForeignKey("Project")]
+    public int IdProject { get; set; }
     public decimal Total { get; set; }
     public DateTime DateTime { get; set; }
     public int OrderNumber { get; set; }

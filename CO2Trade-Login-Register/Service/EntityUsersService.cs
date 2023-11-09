@@ -85,4 +85,23 @@ public class EntityUsersService : IEntityUserService
         }
         
     }
+
+    public async Task<APIResponse> MyProjects(string idEntityUser)
+    {
+        try
+        {
+            List<ProjectResponseDTO> projectResponseDtos = await _entityUserRepo.MyProjects(idEntityUser);
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.Result = projectResponseDtos;
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+    }
 }
