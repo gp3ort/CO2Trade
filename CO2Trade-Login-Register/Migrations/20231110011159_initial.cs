@@ -98,7 +98,8 @@ namespace CO2Trade_Login_Register.Migrations
                     IdProject = table.Column<int>(type: "int", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderNumber = table.Column<int>(type: "int", nullable: false)
+                    OrderNumber = table.Column<int>(type: "int", nullable: false),
+                    Revenue = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,7 +176,7 @@ namespace CO2Trade_Login_Register.Migrations
                     IdEntityType = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CO2Measure = table.Column<float>(type: "real", nullable: false),
+                    CO2Measure = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -326,7 +327,7 @@ namespace CO2Trade_Login_Register.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdEntidad = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CO2Measure = table.Column<float>(type: "real", nullable: false),
+                    CO2Measure = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BusinessName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

@@ -16,4 +16,5 @@ public class Purchase
     public decimal Total { get; set; }
     public DateTime DateTime { get; set; }
     public int OrderNumber { get; set; }
+    public decimal Revenue { get; set; }
 }
