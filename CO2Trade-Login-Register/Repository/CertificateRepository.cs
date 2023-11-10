@@ -14,11 +14,13 @@ namespace CO2Trade_Login_Register.Repository;
 public class CertificateRepository : ICertificateRepository
 {
     private readonly ApplicationDbContext _db;
+    private readonly IPurchaseRepository _purchaseRepository;
     private CertificateResponseDTO _responseDto;
 
-    public CertificateRepository(ApplicationDbContext db)
+    public CertificateRepository(ApplicationDbContext db, IPurchaseRepository purchaseRepository)
     {
         _db = db;
+        _purchaseRepository = purchaseRepository;
         _responseDto = new CertificateResponseDTO();
     }
 
@@ -29,13 +31,14 @@ public class CertificateRepository : ICertificateRepository
             string idEntity = certificateRequest.IdEntity;
             var entity = await _db.EntityUsers.FindAsync(idEntity);
             var project = await _db.Projects.FindAsync(certificateRequest.IdProject);
+            var purchase = await _purchaseRepository.GetAsync(x => x.IdProject == project.Id);
             string entityName = entity.BusinessName;
             string projectName = project.Name;
             decimal projectCO2 = project.TonsOfOxygen;
-            DateTime actualDate = DateTime.Now;
+            DateTime actualDate = purchase.DateTime;
             string date = actualDate.ToString("M/d/yyyy");
 
-            BuildCertificate(entityName, projectName, projectCO2, date);
+            BuildCertificate(purchase.Revenue, entityName, projectName, projectCO2, date);
 
             Certificate certificate = new Certificate
             {
@@ -66,9 +69,10 @@ public class CertificateRepository : ICertificateRepository
         {
             var entity = await _db.EntityUsers.FindAsync(certificateRequest.IdEntity);
             var project = await _db.Projects.FindAsync(certificateRequest.IdProject);
+            var purchase = await _purchaseRepository.GetAsync(x => x.IdProject == project.Id);
 
             var certificate = await _db.Certificates.FirstOrDefaultAsync(e => e.IdEntity == entity.Id && e.IdProject == project.Id);
-            BuildCertificate(certificate.EntityName, certificate.ProjectName, certificate.ProjectCO2, certificate.Date);
+            BuildCertificate(purchase.Revenue, certificate.EntityName, certificate.ProjectName, certificate.ProjectCO2, certificate.Date);
 
             return _responseDto;
         }
@@ -80,10 +84,10 @@ public class CertificateRepository : ICertificateRepository
         }
     }
 
-    private void BuildCertificate(string entityName, string projectName, decimal projectCO2, string date)
+    private void BuildCertificate(decimal revenue, string entityName, string projectName, decimal projectCO2, string date)
     {
         var document = new PdfDocument();
-        string htmlDocument = CertificateMaker.BuildCertificate(entityName, projectName, projectCO2, date);
+        string htmlDocument = CertificateMaker.BuildCertificate(revenue, entityName, projectName, projectCO2, date);
 
         PdfGenerator.AddPdfPages(document, htmlDocument, PageSize.A4);
         byte[]? response = null;

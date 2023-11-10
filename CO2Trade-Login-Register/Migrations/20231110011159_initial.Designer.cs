@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231109200008_initial")]
+    [Migration("20231110011159_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -70,8 +70,8 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("CO2Measure")
-                        .HasColumnType("real");
+                    b.Property<decimal>("CO2Measure")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -227,8 +227,8 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("CO2Measure")
-                        .HasColumnType("real");
+                    b.Property<decimal>("CO2Measure")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
@@ -335,6 +335,9 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Revenue")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");

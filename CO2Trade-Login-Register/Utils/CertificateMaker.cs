@@ -2,8 +2,9 @@ namespace CO2Trade_Login_Register.Utils;
 
 public class CertificateMaker
 {
-    public static string BuildCertificate(string entityName, string projectName, decimal projectCO2, String date)
+    public static string BuildCertificate(decimal revenue, string entityName, string projectName, decimal projectCO2, String date)
     {
+        string rev = revenue > 0 ? $"Certifica que la empresa {entityName.ToUpper()} ha reducido con éxito su emisión de CO2 a 0 tns. Ayudando al medio ambiente con un extra de {revenue}tns" : $"Certifica que la empresa {entityName.ToUpper()} ha reducido con éxito sus emisiones de CO2 en un total de {projectCO2}tns";
         string src = "Utils/logo.jpg";
         string html = $@"
 <!DOCTYPE html>
@@ -56,7 +57,7 @@ public class CertificateMaker
     <div class=""certificate"">
         <img src=""{src}"" alt=""GP3 Logo"" class=""logo"">
         <h1 class=""company-name"">GP3 ORT S.A.</h1>
-        <p class=""details"">Certifica que la empresa {entityName.ToUpper()} ha reducido con éxito sus emisiones de CO2 en un total de {projectCO2}.</p>
+        <p class=""details"">{rev}</p>
         <p class=""details"">Fecha de Certificación: {date}</p>
         <p class=""project-name"">Nombre del Proyecto: {projectName.ToUpper()}</p>
         <div class=""commitment-text"">
