@@ -23,12 +23,12 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
     private readonly IProjectRepository _projectRepository;
     private readonly ApplicationDbContext _db;
     private readonly UserManager<EntityUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<Rol> _roleManager;
     private string secretKey;
     private readonly IMapper _mapper;
 
     public EntityUserRepository(ApplicationDbContext db, UserManager<EntityUser> userManager, 
-        RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper, 
+        RoleManager<Rol> roleManager, IConfiguration configuration, IMapper mapper, 
         IPurchaseRepository purchaseRepository, IProjectRepository projectRepository) : base(db)
     {
         _db = db;
@@ -114,9 +114,14 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
             
             if (result.Succeeded)
             {
-                if (!_roleManager.RoleExistsAsync(user.Rol.Name).GetAwaiter().GetResult())
+                if (await _roleManager.RoleExistsAsync(user.Rol.Name))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(user.Rol.Name));
+                    await _userManager.AddToRoleAsync(user, user.Rol.Name);
+                }
+                else
+                {
+                    await _roleManager.CreateAsync(new Rol { Name = user.Rol.Name });
+                    await _userManager.AddToRoleAsync(user, user.Rol.Name);
                 }
 
                 await _userManager.AddToRoleAsync(user, user.Rol.Name);
