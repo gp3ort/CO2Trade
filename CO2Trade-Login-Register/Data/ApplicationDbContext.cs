@@ -33,6 +33,10 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<int>, Rol, in
     {
         base.OnModelCreating(modelBuilder);
 
+        //Tablas de Identity
+        modelBuilder.Entity<IdentityUser<int>>().ToTable("Entites");
+        modelBuilder.Entity<Rol>().ToTable("Roles");
+
         modelBuilder.Entity<Rol>(entity =>
         {
             entity.Property(e => e.Name).HasMaxLength(256);
