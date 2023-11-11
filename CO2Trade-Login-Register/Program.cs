@@ -23,7 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
 //Identity
-builder.Services.AddIdentity<EntityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<EntityUser, Rol>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddResponseCaching();
 //Automapper
 builder.Services.AddAutoMapper(typeof(MappingConfig));
@@ -105,6 +105,24 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<Rol>>();
+
+    string[] roleNames = { "Admin", "IndividualCustomer", "Organization" };
+    foreach (var roleName in roleNames)
+    {
+        var roleExist = context.Roles.Any(r => r.Name == roleName);
+        if (!roleExist)
+        {
+            var role = new Rol { Name = roleName, Description = $"{roleName} role" };
+            await roleManager.CreateAsync(role);
+        }
+    }
+    context.SaveChanges();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
