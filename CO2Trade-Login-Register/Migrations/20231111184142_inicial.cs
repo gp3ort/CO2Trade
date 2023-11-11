@@ -8,25 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CO2Trade_Login_Register.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Certificates",
                 columns: table => new
@@ -37,7 +23,7 @@ namespace CO2Trade_Login_Register.Migrations
                     ProjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProjectCO2 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     EntityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdEntity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdEntity = table.Column<int>(type: "int", nullable: false),
                     IdProject = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -79,7 +65,7 @@ namespace CO2Trade_Login_Register.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdProject = table.Column<int>(type: "int", nullable: false),
-                    IdEntityUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdEntityUser = table.Column<int>(type: "int", nullable: false),
                     IdShoppingCart = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -93,7 +79,7 @@ namespace CO2Trade_Login_Register.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdEntityUser = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdEntityUser = table.Column<int>(type: "int", nullable: false),
                     IdShoppingCart = table.Column<int>(type: "int", nullable: false),
                     IdProject = table.Column<int>(type: "int", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -112,33 +98,14 @@ namespace CO2Trade_Login_Register.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -166,17 +133,32 @@ namespace CO2Trade_Login_Register.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BusinessName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdRol = table.Column<int>(type: "int", nullable: false),
-                    IdEntityType = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CO2Measure = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Entites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -185,23 +167,31 @@ namespace CO2Trade_Login_Register.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BusinessName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdRol = table.Column<int>(type: "int", nullable: true),
+                    IdEntityType = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CO2Measure = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_Entites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_EntityTypes_IdEntityType",
+                        name: "FK_Entites_EntityTypes_IdEntityType",
                         column: x => x.IdEntityType,
                         principalTable: "EntityTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Roles_IdRol",
+                        name: "FK_Entites_Roles_IdRol",
                         column: x => x.IdRol,
                         principalTable: "Roles",
                         principalColumn: "Id",
@@ -214,7 +204,7 @@ namespace CO2Trade_Login_Register.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -222,9 +212,9 @@ namespace CO2Trade_Login_Register.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        name: "FK_AspNetUserClaims_Entites_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Entites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -236,15 +226,15 @@ namespace CO2Trade_Login_Register.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        name: "FK_AspNetUserLogins_Entites_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Entites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -253,31 +243,31 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        name: "FK_AspNetUserRoles_Entites_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Entites",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -286,9 +276,9 @@ namespace CO2Trade_Login_Register.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        name: "FK_AspNetUserTokens_Entites_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Entites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -300,15 +290,15 @@ namespace CO2Trade_Login_Register.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdProject = table.Column<int>(type: "int", nullable: false),
-                    IdEntityUser = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdEntityUser = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EntityProjects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EntityProjects_AspNetUsers_IdEntityUser",
+                        name: "FK_EntityProjects_Entites_IdEntityUser",
                         column: x => x.IdEntityUser,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Entites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -325,7 +315,7 @@ namespace CO2Trade_Login_Register.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdEntidad = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IdEntidad = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CO2Measure = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BusinessName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -335,9 +325,9 @@ namespace CO2Trade_Login_Register.Migrations
                 {
                     table.PrimaryKey("PK_MeasureCo2s", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MeasureCo2s_AspNetUsers_IdEntidad",
+                        name: "FK_MeasureCo2s_Entites_IdEntidad",
                         column: x => x.IdEntidad,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Entites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -350,22 +340,22 @@ namespace CO2Trade_Login_Register.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OperationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdCertificate = table.Column<int>(type: "int", nullable: false),
-                    IdEntityUser = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IdEntityUser = table.Column<int>(type: "int", nullable: false),
                     TotalCompensation = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OperationsCertificates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OperationsCertificates_AspNetUsers_IdEntityUser",
-                        column: x => x.IdEntityUser,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_OperationsCertificates_Certificates_IdCertificate",
                         column: x => x.IdCertificate,
                         principalTable: "Certificates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OperationsCertificates_Entites_IdEntityUser",
+                        column: x => x.IdEntityUser,
+                        principalTable: "Entites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -379,15 +369,15 @@ namespace CO2Trade_Login_Register.Migrations
                     IdProject = table.Column<int>(type: "int", nullable: false),
                     Processed = table.Column<bool>(type: "bit", nullable: false),
                     Canceled = table.Column<bool>(type: "bit", nullable: false),
-                    IdEntityUser = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdEntityUser = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShoppingCarts_AspNetUsers_IdEntityUser",
+                        name: "FK_ShoppingCarts_Entites_IdEntityUser",
                         column: x => x.IdEntityUser,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Entites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -413,16 +403,6 @@ namespace CO2Trade_Login_Register.Migrations
                 values: new object[] { 1, "just testing", "Test for test" });
 
             migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Administrator rol", "ADMIN" },
-                    { 2, "Individual customer rol", "INDIVIDUAL_CUSTOMER" },
-                    { 3, "Organization rol", "ORGANIZATION" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Projects",
                 columns: new[] { "Id", "Description", "IdImage", "Name", "Price", "TonsOfOxygen", "sold" },
                 values: new object[] { 1, "Just a test project", 1, "Project for TEST", 25m, 25m, false });
@@ -431,13 +411,6 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -456,22 +429,22 @@ namespace CO2Trade_Login_Register.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "AspNetUsers",
+                table: "Entites",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_IdEntityType",
-                table: "AspNetUsers",
+                name: "IX_Entites_IdEntityType",
+                table: "Entites",
                 column: "IdEntityType");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_IdRol",
-                table: "AspNetUsers",
+                name: "IX_Entites_IdRol",
+                table: "Entites",
                 column: "IdRol");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "AspNetUsers",
+                table: "Entites",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
@@ -505,6 +478,12 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "IX_Projects_IdImage",
                 table: "Projects",
                 column: "IdImage");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "Roles",
+                column: "NormalizedName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShoppingCarts_IdEntityUser",
@@ -554,13 +533,10 @@ namespace CO2Trade_Login_Register.Migrations
                 name: "ShoppingCarts");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
                 name: "Certificates");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Entites");
 
             migrationBuilder.DropTable(
                 name: "Projects");
