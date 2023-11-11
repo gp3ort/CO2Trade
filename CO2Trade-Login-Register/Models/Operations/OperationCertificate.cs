@@ -13,7 +13,7 @@ public class OperationCertificate
     public int IdCertificate { get; set; }
     public Certificate? Certificate { get; set; }
     [ForeignKey("EntityUser")]
-    public string IdEntityUser { get; set; }
+    public int IdEntityUser { get; set; }
     public EntityUser? EntityUser { get; set; }
     public decimal TotalCompensation { get; set; }
     

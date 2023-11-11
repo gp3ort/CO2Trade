@@ -11,6 +11,6 @@ public class Certificate
     public string ProjectName { get; set; }
     public decimal ProjectCO2 { get; set; }
     public string EntityName { get; set; }
-    public string IdEntity { get; set; }
+    public int IdEntity { get; set; }
     public int IdProject { get; set; }
 }

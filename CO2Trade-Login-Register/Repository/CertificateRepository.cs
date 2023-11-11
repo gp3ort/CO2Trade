@@ -28,7 +28,7 @@ public class CertificateRepository : ICertificateRepository
     {
         try
         {
-            string idEntity = certificateRequest.IdEntity;
+            int idEntity = certificateRequest.IdEntity;
             var entity = await _db.EntityUsers.FindAsync(idEntity);
             var project = await _db.Projects.FindAsync(certificateRequest.IdProject);
             var purchase = await _purchaseRepository.GetAsync(x => x.IdProject == project.Id);

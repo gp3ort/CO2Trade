@@ -16,7 +16,7 @@ public class OperationRepository : Repository<ShoppingCart>, IOperationRepositor
         _db = db;
     }
     
-    public async void CreateOperationProject(int cartId, int projectId, string entityUserId)
+    public async void CreateOperationProject(int cartId, int projectId, int entityUserId)
     {
         await _db.OperationProjects.AddAsync(new OperationProject()
         {

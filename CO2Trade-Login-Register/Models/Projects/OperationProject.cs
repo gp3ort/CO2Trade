@@ -10,7 +10,7 @@ public class OperationProject
     [ForeignKey("Project")]
     public int IdProject { get; set; }
     [ForeignKey("EntityUser")]
-    public string IdEntityUser { get; set; }
+    public int IdEntityUser { get; set; }
     [ForeignKey("ShoppingCart")]
     public int IdShoppingCart { get; set; }
 }

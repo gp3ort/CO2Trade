@@ -15,6 +15,6 @@ public class ShoppingCart
     public bool Processed { get; set; }
     public bool Canceled { get; set; }
     [ForeignKey("EntityUser")]
-    public string IdEntityUser { get; set; }
+    public int IdEntityUser { get; set; }
     public EntityUser? EntityUser { get; set; }
 }

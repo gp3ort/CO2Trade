@@ -36,7 +36,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EntityTypes");
+                    b.ToTable("EntityTypes", (string)null);
 
                     b.HasData(
                         new
@@ -160,7 +160,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -201,7 +201,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
 
                     b.HasData(
                         new
@@ -241,7 +241,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasIndex("IdEntidad");
 
-                    b.ToTable("MeasureCo2s");
+                    b.ToTable("MeasureCo2s", (string)null);
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Certificate", b =>
@@ -276,7 +276,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Certificates");
+                    b.ToTable("Certificates", (string)null);
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.OperationCertificate", b =>
@@ -306,7 +306,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasIndex("IdEntityUser");
 
-                    b.ToTable("OperationsCertificates");
+                    b.ToTable("OperationsCertificates", (string)null);
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Purchase", b =>
@@ -341,7 +341,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Purchases");
+                    b.ToTable("Purchases", (string)null);
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.ShoppingCart", b =>
@@ -371,7 +371,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasIndex("IdProject");
 
-                    b.ToTable("ShoppingCarts");
+                    b.ToTable("ShoppingCarts", (string)null);
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.EntityProject", b =>
@@ -395,7 +395,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasIndex("IdProject");
 
-                    b.ToTable("EntityProjects");
+                    b.ToTable("EntityProjects", (string)null);
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.OperationProject", b =>
@@ -418,7 +418,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OperationProjects");
+                    b.ToTable("OperationProjects", (string)null);
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.Project", b =>
@@ -453,7 +453,7 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasIndex("IdImage");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
 
                     b.HasData(
                         new
