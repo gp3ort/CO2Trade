@@ -39,7 +39,7 @@ public class EntityUsersController : ControllerBase
     }
     
     [HttpPost("myProjects")]
-    public async Task<IActionResult> MyProjects(string idEntityUser)
+    public async Task<IActionResult> MyProjects(int idEntityUser)
     {
         _response = await _entityUsersService.MyProjects(idEntityUser);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);

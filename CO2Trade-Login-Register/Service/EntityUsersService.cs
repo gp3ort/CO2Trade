@@ -86,7 +86,7 @@ public class EntityUsersService : IEntityUserService
         
     }
 
-    public async Task<APIResponse> MyProjects(string idEntityUser)
+    public async Task<APIResponse> MyProjects(int idEntityUser)
     {
         try
         {

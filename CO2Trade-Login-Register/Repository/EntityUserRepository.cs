@@ -160,7 +160,7 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         };
     }
 
-    public async Task<List<ProjectResponseDTO>> MyProjects(string idEntityUser)
+    public async Task<List<ProjectResponseDTO>> MyProjects(int idEntityUser)
     {
         List<Purchase> myPurchases = await _purchaseRepository.GetAllAsync(p => p.IdEntityUser.Equals(idEntityUser));
         List<Project> projects = new List<Project>();
