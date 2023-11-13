@@ -52,7 +52,10 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
 
     public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
     {
-        var entityUser = _db.EntityUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDTO.BusinessName.ToLower());
+        var entityUser = _db.EntityUsers
+        .Include(u => u.Rol).Include(et => et.EntityType)
+        .FirstOrDefault(u => u.UserName.ToLower() == loginRequestDTO.BusinessName.ToLower());
+
         bool isValid = await _userManager.CheckPasswordAsync(entityUser, loginRequestDTO.Password);
         if (entityUser == null || isValid == false)
         {
@@ -181,6 +184,11 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         measureCo2.BusinessName = entityUser.BusinessName;
         await _db.MeasureCo2s.AddAsync(measureCo2);
         await _db.SaveChangesAsync();
+    }
+
+    public async Task<EntityUser> GetUser(string userId)
+    {
+        return await _db.EntityUsers.Include(r => r.Rol).Include(et => et.EntityType).FirstOrDefaultAsync(u => u.Id == userId);
     }
 
     private int GetRol(int id)
