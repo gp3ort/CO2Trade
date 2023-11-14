@@ -189,18 +189,7 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
     public async Task<EntityUserDTO> GetUser(string userId)
     {
         EntityUser user = await _db.EntityUsers.Include(r => r.Rol).Include(et => et.EntityType).FirstOrDefaultAsync(u => u.Id == userId);
-        EntityUserDTO entityUserDTO = new()
-        {
-            UserName = user.UserName,
-            BusinessName = user.BusinessName,
-            Address = user.Address,
-            Rol = user.Rol.Description,
-            EntityType = user.EntityType.Description,
-            Description = user.Description,
-            PhoneNumber = user.PhoneNumber,
-            CO2Measure = user.CO2Measure
-        };
-        return entityUserDTO;
+        return _mapper.Map<EntityUserDTO>(user);
     }
 
     private int GetRol(int id)
