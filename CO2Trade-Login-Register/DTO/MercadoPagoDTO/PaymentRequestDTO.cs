@@ -1,3 +1,5 @@
+using CO2Trade_Login_Register.DTO.RequestDTO;
+
 namespace CO2Trade_Login_Register.DTO.MercadoPagoDTO;
 
 public class PaymentRequestDTO
@@ -15,4 +17,5 @@ public class PaymentRequestDTO
     public string ProductDescription { get; set; }
     
     public PayerDTO Payer { get; set; }
+    public ShoppingCartRequestDTO ShoppingCartRequestDto { get; set; }
 }
