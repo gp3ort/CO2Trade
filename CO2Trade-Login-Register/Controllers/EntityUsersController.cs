@@ -47,15 +47,10 @@ public class EntityUsersController : ControllerBase
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 
-    [HttpGet("user")]
-    public async Task<IActionResult> GetUser()
+    [HttpGet("user/{id}")]
+    public async Task<IActionResult> GetUser(string id)
     {
-        var userId = User.FindFirstValue(ClaimTypes.Name);
-        if (string.IsNullOrEmpty(userId))
-        {
-            return BadRequest("User session token not found. Please log in to access this resource.");
-        }
-        _response = await _entityUsersService.GetUser(userId);
+        _response = await _entityUsersService.GetUser(id);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 }

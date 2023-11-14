@@ -186,9 +186,21 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         await _db.SaveChangesAsync();
     }
 
-    public async Task<EntityUser> GetUser(string userId)
+    public async Task<EntityUserDTO> GetUser(string userId)
     {
-        return await _db.EntityUsers.Include(r => r.Rol).Include(et => et.EntityType).FirstOrDefaultAsync(u => u.Id == userId);
+        EntityUser user = await _db.EntityUsers.Include(r => r.Rol).Include(et => et.EntityType).FirstOrDefaultAsync(u => u.Id == userId);
+        EntityUserDTO entityUserDTO = new()
+        {
+            UserName = user.UserName,
+            BusinessName = user.BusinessName,
+            Address = user.Address,
+            Rol = user.Rol.Description,
+            EntityType = user.EntityType.Description,
+            Description = user.Description,
+            PhoneNumber = user.PhoneNumber,
+            CO2Measure = user.CO2Measure
+        };
+        return entityUserDTO;
     }
 
     private int GetRol(int id)

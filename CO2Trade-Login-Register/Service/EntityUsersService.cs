@@ -111,7 +111,7 @@ public class EntityUsersService : IEntityUserService
     {
         try
         {
-            EntityUser user = await _entityUserRepo.GetUser(userId);
+            EntityUserDTO user = await _entityUserRepo.GetUser(userId);
 
             if (user == null)
             {
@@ -123,19 +123,7 @@ public class EntityUsersService : IEntityUserService
 
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
-
-            EntityUserDTO userDto = new EntityUserDTO()
-            {
-                UserName = user.UserName,
-                BusinessName = user.BusinessName,
-                Address = user.Address,
-                Description = user.Description,
-                PhoneNumber = user.PhoneNumber,
-                CO2Measure = user.CO2Measure,
-                Rol = user.Rol.Description,
-                EntityType = user.EntityType.Description
-        };
-            _response.Result = userDto;
+            _response.Result = user;
 
             return _response;
         } 

@@ -1,3 +1,4 @@
+using CO2Trade_Login_Register.DTO;
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models.EntitiesUser;
@@ -12,5 +13,5 @@ public interface IEntityUserRepository : IRepository<EntityUser>
     Task<RegistrationResponseDTO> Register(RegistrationRequestDTO registrationRequestDTO);
     Task<MeasureResponseDTO> AddCO2(MeasureRequestDTO measureRequestDto);
     Task<List<ProjectResponseDTO>> MyProjects(string idEntityUser);
-    Task<EntityUser> GetUser(string userId);
+    Task<EntityUserDTO> GetUser(string userId);
 }
