@@ -1,7 +1,9 @@
 using System.Net;
+using CO2Trade_Login_Register.DTO;
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.DTO.ResponseDTO;
 using CO2Trade_Login_Register.Models;
+using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Repository.IRepository;
 using CO2Trade_Login_Register.Service.IService;
 
@@ -97,6 +99,35 @@ public class EntityUsersService : IEntityUserService
             return _response;
         }
         catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+    }
+
+    public async Task<APIResponse> GetUser(string userId)
+    {
+        try
+        {
+            EntityUserDTO user = await _entityUserRepo.GetUser(userId);
+
+            if (user == null)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessage.Add("User not found");
+                return _response;
+            }
+
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.Result = user;
+
+            return _response;
+        } 
+        catch(Exception e)
         {
             _response.IsSuccess = false;
             _response.StatusCode = HttpStatusCode.BadRequest;

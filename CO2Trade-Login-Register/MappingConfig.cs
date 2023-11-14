@@ -13,7 +13,9 @@ namespace CO2Trade_Login_Register
     {
         public MappingConfig()
         {
-            CreateMap<EntityUser, EntityUserDTO>().ReverseMap();
+            CreateMap<EntityUser, EntityUserDTO>()
+                .ForMember(dest => dest.EntityType, opt => opt.MapFrom(src => src.EntityType.Description))
+                .ForMember(dest => dest.Rol, opt => opt.MapFrom(src => src.Rol.Description));
             CreateMap<EntityUser, RegistrationResponseDTO>().ReverseMap();
             
             CreateMap<Project, ProjectRequestDTO>().ReverseMap();

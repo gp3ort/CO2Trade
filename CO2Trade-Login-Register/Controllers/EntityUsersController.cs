@@ -1,7 +1,9 @@
 using CO2Trade_Login_Register.DTO.RequestDTO;
 using CO2Trade_Login_Register.Models;
 using CO2Trade_Login_Register.Service.IService;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CO2Trade_Login_Register.Controllers;
 
@@ -42,6 +44,13 @@ public class EntityUsersController : ControllerBase
     public async Task<IActionResult> MyProjects(string idEntityUser)
     {
         _response = await _entityUsersService.MyProjects(idEntityUser);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
+
+    [HttpGet("user/{id}")]
+    public async Task<IActionResult> GetUser(string id)
+    {
+        _response = await _entityUsersService.GetUser(id);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 }
