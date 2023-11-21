@@ -135,4 +135,30 @@ public class EntityUsersService : IEntityUserService
             return _response;
         }
     }
+
+    public async Task<APIResponse> ChangePassword(EntityUserPasswordRequestDTO entityUserPasswordRequestDto)
+    {
+        try
+        {
+            EntityUserDTO userDto = await _entityUserRepo.ChangePassword(entityUserPasswordRequestDto);
+            if (userDto == null)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessage.Add("Error - user don't exist.");
+                return _response;
+            }
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.Result = userDto;
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+    }
 }

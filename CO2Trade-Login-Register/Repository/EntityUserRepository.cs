@@ -172,6 +172,20 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         return projectResponseDtos;
     }
 
+    public async Task<EntityUserDTO> GetUser(string userId)
+    {
+        EntityUser user = await _db.EntityUsers.Include(r => r.Rol).Include(et => et.EntityType).FirstOrDefaultAsync(u => u.Id == userId);
+        return _mapper.Map<EntityUserDTO>(user);
+    }
+
+    public async Task<EntityUserDTO> ChangePassword(EntityUserPasswordRequestDTO entityUserPasswordRequestDto)
+    {
+        EntityUser user = await _db.EntityUsers.Include(r => r.Rol).Include(et => et.EntityType).FirstOrDefaultAsync(u => u.Id == entityUserPasswordRequestDto.EntityUserId);
+        await _userManager.ChangePasswordAsync(user, entityUserPasswordRequestDto.Password,
+            entityUserPasswordRequestDto.NewPassword);
+        await Update(user); 
+        return _mapper.Map<EntityUserDTO>(user);
+    }
 
     private async void createMeasure(EntityUser entityUser, MeasureRequestDTO measureRequestDto)
     {
@@ -185,13 +199,7 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         await _db.MeasureCo2s.AddAsync(measureCo2);
         await _db.SaveChangesAsync();
     }
-
-    public async Task<EntityUserDTO> GetUser(string userId)
-    {
-        EntityUser user = await _db.EntityUsers.Include(r => r.Rol).Include(et => et.EntityType).FirstOrDefaultAsync(u => u.Id == userId);
-        return _mapper.Map<EntityUserDTO>(user);
-    }
-
+    
     private int GetRol(int id)
     {
         switch (id)

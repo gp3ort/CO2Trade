@@ -14,4 +14,5 @@ public interface IEntityUserRepository : IRepository<EntityUser>
     Task<MeasureResponseDTO> AddCO2(MeasureRequestDTO measureRequestDto);
     Task<List<ProjectResponseDTO>> MyProjects(string idEntityUser);
     Task<EntityUserDTO> GetUser(string userId);
+    Task<EntityUserDTO> ChangePassword(EntityUserPasswordRequestDTO entityUserPasswordRequestDto);
 }

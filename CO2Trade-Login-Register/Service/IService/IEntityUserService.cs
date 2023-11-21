@@ -11,4 +11,5 @@ public interface IEntityUserService
     Task<APIResponse> AddCO2(MeasureRequestDTO measureRequestDto);
     Task<APIResponse> MyProjects(string idEntityUser);
     Task<APIResponse> GetUser(string userId);
+    Task<APIResponse> ChangePassword(EntityUserPasswordRequestDTO entityUserPasswordRequestDto);
 }
