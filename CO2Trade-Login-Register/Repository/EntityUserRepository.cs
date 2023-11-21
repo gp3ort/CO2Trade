@@ -183,6 +183,7 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         EntityUser user = await _db.EntityUsers.Include(r => r.Rol).Include(et => et.EntityType).FirstOrDefaultAsync(u => u.Id == entityUserPasswordRequestDto.EntityUserId);
         await _userManager.ChangePasswordAsync(user, entityUserPasswordRequestDto.Password,
             entityUserPasswordRequestDto.NewPassword);
+        await Update(user); 
         return _mapper.Map<EntityUserDTO>(user);
     }
 
