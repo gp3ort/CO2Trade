@@ -53,4 +53,11 @@ public class EntityUsersController : ControllerBase
         _response = await _entityUsersService.GetUser(id);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
+
+    [HttpPost("changePassword")]
+    public async Task<IActionResult> ChangePassword(EntityUserPasswordRequestDTO entityUserPasswordRequestDto)
+    {
+        _response = await _entityUsersService.ChangePassword(entityUserPasswordRequestDto);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
 }
