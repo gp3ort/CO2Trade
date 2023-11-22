@@ -88,6 +88,20 @@ namespace CO2Trade_Login_Register.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProjectTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Purchases",
                 columns: table => new
                 {
@@ -152,7 +166,8 @@ namespace CO2Trade_Login_Register.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdImage = table.Column<int>(type: "int", nullable: false),
-                    sold = table.Column<bool>(type: "bit", nullable: false)
+                    Sold = table.Column<bool>(type: "bit", nullable: false),
+                    IdProjectType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,6 +176,12 @@ namespace CO2Trade_Login_Register.Migrations
                         name: "FK_Projects_Images_IdImage",
                         column: x => x.IdImage,
                         principalTable: "Images",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Projects_ProjectTypes_IdProjectType",
+                        column: x => x.IdProjectType,
+                        principalTable: "ProjectTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -413,6 +434,18 @@ namespace CO2Trade_Login_Register.Migrations
                 values: new object[] { 1, "just testing", "Test for test" });
 
             migrationBuilder.InsertData(
+                table: "ProjectTypes",
+                columns: new[] { "Id", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Proyectos forestales se centran en la gestión sostenible de bosques, abordando la conservación, la silvicultura y la biodiversidad", "Forestales" },
+                    { 2, "Estos proyectos buscan aprovechar fuentes de energía sostenibles como solar, eólica, hidroeléctrica y geotérmica", "Energías Renovables" },
+                    { 3, "Proyectos de economía circular se enfocan en minimizar el desperdicio y maximizar la reutilización de recursos. Esto implica diseñar productos con ciclos de vida más largos, reciclar materiales y crear sistemas donde los desechos se convierten en insumos para otros procesos", "Economías Circulares" },
+                    { 4, "La ciencia aplicada se refiere a la investigación científica dirigida a resolver problemas prácticos. Proyectos en este campo buscan aplicar los conocimientos científicos para desarrollar tecnologías, productos o soluciones que tengan impacto directo en la sociedad o la industria", "Ciencia Aplicada" },
+                    { 5, "Esta categoría es amplia y puede incluir una variedad de proyectos que no se ajustan a las categorías anteriores. Puede abarcar desde iniciativas sociales hasta innovaciones tecnológicas, dependiendo de la naturaleza específica de los proyectos incluidos en esta categoría", "Otros" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
@@ -424,8 +457,8 @@ namespace CO2Trade_Login_Register.Migrations
 
             migrationBuilder.InsertData(
                 table: "Projects",
-                columns: new[] { "Id", "Description", "IdImage", "Name", "Price", "TonsOfOxygen", "sold" },
-                values: new object[] { 1, "Just a test project", 1, "Project for TEST", 25m, 25m, false });
+                columns: new[] { "Id", "Description", "IdImage", "IdProjectType", "Name", "Price", "Sold", "TonsOfOxygen" },
+                values: new object[] { 1, "Just a test project", 1, 1, "Project for TEST", 25m, false, 25m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -507,6 +540,11 @@ namespace CO2Trade_Login_Register.Migrations
                 column: "IdImage");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Projects_IdProjectType",
+                table: "Projects",
+                column: "IdProjectType");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShoppingCarts_IdEntityUser",
                 table: "ShoppingCarts",
                 column: "IdEntityUser");
@@ -573,6 +611,9 @@ namespace CO2Trade_Login_Register.Migrations
 
             migrationBuilder.DropTable(
                 name: "Images");
+
+            migrationBuilder.DropTable(
+                name: "ProjectTypes");
         }
     }
 }

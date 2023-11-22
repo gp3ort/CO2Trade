@@ -15,5 +15,8 @@ public class Project
     [ForeignKey("Image")]
     public int IdImage { get; set; }
     public Image? Image { get; set; }
-    public bool sold { get; set; } = false;
+    public bool Sold { get; set; } = false;
+    [ForeignKey("ProjectType")]
+    public int IdProjectType { get; set; }
+    public ProjectType? ProjectType { get; set; }
 }

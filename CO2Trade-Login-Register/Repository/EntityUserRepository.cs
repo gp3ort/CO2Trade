@@ -164,7 +164,7 @@ public class EntityUserRepository : Repository<EntityUser>, IEntityUserRepositor
         List<Project> projects = new List<Project>();
         foreach (var purchase in myPurchases)
         {
-            projects.Add(await _projectRepository.GetAsync(p => p.Id == purchase.IdProject));
+            projects.Add(await _projectRepository.GetAsync(purchase.IdProject));
         }
 
         List<ProjectResponseDTO> projectResponseDtos = _mapper.Map<List<ProjectResponseDTO>>(projects);

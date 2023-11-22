@@ -14,13 +14,15 @@ public class ProjectService : IProjectService
 {
     private readonly IProjectRepository _projectRepository;
     private readonly IImageRepository _imageRepository;
+    private readonly IProjectTypesRepository _projectTypesRepository;
     private APIResponse _response;
     private readonly IMapper _mapper;
 
-    public ProjectService(IProjectRepository projectRepository, IImageRepository imageRepository, IMapper mapper)
+    public ProjectService(IProjectRepository projectRepository, IImageRepository imageRepository, IProjectTypesRepository projectTypesRepository ,IMapper mapper)
     {
         _projectRepository = projectRepository;
         _imageRepository = imageRepository;
+        _projectTypesRepository = projectTypesRepository;
         _response = new();
         _mapper = mapper;
     }
@@ -32,6 +34,7 @@ public class ProjectService : IProjectService
             Project project = _mapper.Map<Project>(projectRequestDto);
             await _imageRepository.CreateAsync(project.Image);
             await _projectRepository.CreateAsync(project);
+            project.ProjectType = await _projectTypesRepository.GetAsync(x => x.Id == projectRequestDto.IdProjectType);
             _response.StatusCode = HttpStatusCode.Created;
             _response.IsSuccess = true;
             _response.Result = _mapper.Map<ProjectResponseDTO>(project);
@@ -50,12 +53,7 @@ public class ProjectService : IProjectService
     {
         try
         {
-            List<Project> projects = await _projectRepository.GetAllAsync();
-            List<Image> images = await _imageRepository.GetAllAsync();
-            foreach (var project in projects)
-            {
-                project.Image = images.Find(img => img.Id == project.IdImage);
-            }
+            List<Project> projects = await _projectRepository.GetAllProjectsAsync();
             _response.StatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
             _response.Result = _mapper.Map<List<ProjectResponseDTO>>(projects);
@@ -74,12 +72,7 @@ public class ProjectService : IProjectService
     {
         try
         {
-            List<Project> projects = await _projectRepository.getAllAvailableProjects();
-            List<Image> images = await _imageRepository.GetAllAsync();
-            foreach (var project in projects)
-            {
-                project.Image = images.Find(img => img.Id == project.IdImage);
-            }
+            List<Project> projects = await _projectRepository.GetAllAvailableProjects();
             _response.StatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
             _response.Result = _mapper.Map<List<ProjectResponseDTO>>(projects);
@@ -93,14 +86,31 @@ public class ProjectService : IProjectService
             return _response;
         }
     }
-    
+
+    public async Task<APIResponse> FilterProjects(FilterRequestDto filterRequestDto)
+    {
+        try
+        {
+            List<Project> projects = await _projectRepository.GetFilterProject(filterRequestDto);
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = _mapper.Map<List<ProjectResponseDTO>>(projects);
+            return _response;
+        }
+        catch (Exception e)
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessage.Add(e.Message);
+            return _response;
+        }
+    }
+
     public async Task<APIResponse> GetProject(int id)
     {
         try
         {
-            Project project = await _projectRepository.GetAsync(x => x.Id == id);
-            Image image = await _imageRepository.GetAsync(x => x.Id == project.IdImage);
-            project.Image = image;
+            Project project = await _projectRepository.GetAsync(id);
             _response.StatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
             _response.Result = _mapper.Map<ProjectResponseDTO>(project);

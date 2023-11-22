@@ -35,6 +35,7 @@ builder.Services.AddScoped<IOperationRepository, OperationRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IEntityProjectRepository, EntityProjectRepository>();
 builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+builder.Services.AddScoped<IProjectTypesRepository, ProjectTypeRepository>();
 //Service
 builder.Services.AddScoped<IEntityUserService, EntityUsersService>();
 builder.Services.AddScoped<ICertificateService, CertificateService>();
