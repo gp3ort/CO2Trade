@@ -54,8 +54,8 @@ public class OperationService : IOperationService
                 
             }
             
-            Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartRequest.IdProject);
-            if (project.sold)
+            Project project = await _projectRepository.GetAsync(shoppingCartRequest.IdProject);
+            if (project.Sold)
             {
                 _response.IsSuccess = false;
                 _response.StatusCode = HttpStatusCode.BadRequest;
@@ -97,7 +97,7 @@ public class OperationService : IOperationService
             {
                 if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
                 {
-                    Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartExist.IdProject);
+                    Project project = await _projectRepository.GetAsync(shoppingCartExist.IdProject);
                     shoppingCartExist.Project = project;
                     shoppingCartExist.Canceled = true;
                    await _operationRepository.Update(shoppingCartExist);
@@ -130,12 +130,12 @@ public class OperationService : IOperationService
             {
                 if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
                 {
-                    Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartExist.IdProject);
+                    Project project = await _projectRepository.GetAsync(shoppingCartExist.IdProject);
                     EntityUser entityUser =
                         await _entityUserRepo.GetAsync(x => x.Id == shoppingCartRequest.IdEntityUser);
                     shoppingCartExist.Processed = true;
                     shoppingCartExist.Project = project;
-                    project.sold = true;
+                    project.Sold = true;
                     await _projectRepository.Update(project);
                     await _operationRepository.Update(shoppingCartExist);
                     _operationRepository.CreateOperationProject(shoppingCartExist.Id, shoppingCartExist.IdProject,

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CO2Trade_Login_Register.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231110011159_initial")]
+    [Migration("20231122180029_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -439,6 +439,9 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<int>("IdImage")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdProjectType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -446,15 +449,17 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<bool>("Sold")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("TonsOfOxygen")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("sold")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdImage");
+
+                    b.HasIndex("IdProjectType");
 
                     b.ToTable("Projects");
 
@@ -464,10 +469,64 @@ namespace CO2Trade_Login_Register.Migrations
                             Id = 1,
                             Description = "Just a test project",
                             IdImage = 1,
+                            IdProjectType = 1,
                             Name = "Project for TEST",
                             Price = 25m,
-                            TonsOfOxygen = 25m,
-                            sold = false
+                            Sold = false,
+                            TonsOfOxygen = 25m
+                        });
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.ProjectType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Proyectos forestales se centran en la gestión sostenible de bosques, abordando la conservación, la silvicultura y la biodiversidad",
+                            Name = "Forestales"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Estos proyectos buscan aprovechar fuentes de energía sostenibles como solar, eólica, hidroeléctrica y geotérmica",
+                            Name = "Energías Renovables"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Proyectos de economía circular se enfocan en minimizar el desperdicio y maximizar la reutilización de recursos. Esto implica diseñar productos con ciclos de vida más largos, reciclar materiales y crear sistemas donde los desechos se convierten en insumos para otros procesos",
+                            Name = "Economías Circulares"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "La ciencia aplicada se refiere a la investigación científica dirigida a resolver problemas prácticos. Proyectos en este campo buscan aplicar los conocimientos científicos para desarrollar tecnologías, productos o soluciones que tengan impacto directo en la sociedad o la industria",
+                            Name = "Ciencia Aplicada"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Esta categoría es amplia y puede incluir una variedad de proyectos que no se ajustan a las categorías anteriores. Puede abarcar desde iniciativas sociales hasta innovaciones tecnológicas, dependiendo de la naturaleza específica de los proyectos incluidos en esta categoría",
+                            Name = "Otros"
                         });
                 });
 
@@ -699,7 +758,15 @@ namespace CO2Trade_Login_Register.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CO2Trade_Login_Register.Models.Projects.ProjectType", "ProjectType")
+                        .WithMany()
+                        .HasForeignKey("IdProjectType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Image");
+
+                    b.Navigation("ProjectType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
