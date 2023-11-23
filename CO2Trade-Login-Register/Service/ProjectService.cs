@@ -146,15 +146,22 @@ public class ProjectService : IProjectService
         }
     }
 
-    public async Task<APIResponse> UpdateProject(ProjectRequestDTO projectRequestDto)
+    public async Task<APIResponse> UpdateProject(ProjectUpdateRequestDto projectUpdateRequestDto)
     {
         try
         {
-            Project project = _mapper.Map<Project>(projectRequestDto);
-            await _projectRepository.Update(project);
+            Project projectUpdate = await _projectRepository.GetAsync(x => x.Id == projectUpdateRequestDto.IdProject);
+            projectUpdate.Name = projectUpdateRequestDto.Name;
+            projectUpdate.TonsOfOxygen = projectUpdateRequestDto.TonsOfOxygen;
+            projectUpdate.Price = projectUpdateRequestDto.Price;
+            projectUpdate.Description = projectUpdateRequestDto.Description;
+            projectUpdate.Image = _mapper.Map<Image>(projectUpdate.Image);
+            projectUpdate.IdProjectType = projectUpdateRequestDto.IdProjectType;
+            
+            await _projectRepository.Update(projectUpdate);
             _response.StatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
-            _response.Result = _mapper.Map<ProjectResponseDTO>(project);
+            _response.Result = _mapper.Map<ProjectResponseDTO>(projectUpdateRequestDto);
 
             return _response;
         }
