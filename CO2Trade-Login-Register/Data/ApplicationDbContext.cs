@@ -1,5 +1,3 @@
-using CO2Trade_Login_Register.Models.Billing;
-using CO2Trade_Login_Register.Models.Documents;
 using CO2Trade_Login_Register.Models.EntitiesUser;
 using CO2Trade_Login_Register.Models.GeneralSettings;
 using CO2Trade_Login_Register.Models.Measure;
@@ -20,24 +18,17 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
     public DbSet<EntityUser> EntityUsers { get; set; }
     public DbSet<Rol> Roles { get; set; }
     public DbSet<EntityType> EntityTypes { get; set; }
-    public DbSet<Bill> Bills { get; set; }
-    public DbSet<TaxCondition> TaxConditions { get; set; }
-    public DbSet<TaxDocumentType> TaxDocumentTypes { get; set; }
-    public DbSet<Document> Documents { get; set; }
-    public DbSet<DocumentType> DocumentTypes { get; set; }
-    public DbSet<EntityDocument> EntityDocuments { get; set; }
-    public DbSet<Configuration> Configurations { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<MeasureCO2> MeasureCo2s { get; set; }
     public DbSet<Certificate> Certificates { get; set; }
-    public DbSet<Operation> Operations { get; set; }
+    public DbSet<OperationCertificate> OperationsCertificates { get; set; }
     public DbSet<EntityProject> EntityProjects { get; set; }
     public DbSet<OperationProject> OperationProjects { get; set; }
     public DbSet<Project> Projects { get; set; }
-    public DbSet<ProjectType> ProjectTypes { get; set; }
     public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-    
-        
+    public DbSet<Purchase> Purchases { get; set; }
+    public DbSet<ProjectType> ProjectTypes { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -87,11 +78,10 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
                 new Project
                 {
                     Id = 1,
+                    IdProjectType = 1,
                     Name = "Project for TEST",
                     TonsOfOxygen = 25,
                     Price = 25,
-                    IdProjectType = 1,
-                    ProjectType = null,
                     Description = "Just a test project",
                     IdImage = 1,
                     Image = null
@@ -102,7 +92,33 @@ public class ApplicationDbContext : IdentityDbContext<EntityUser>
                 new ProjectType
                 {
                     Id = 1,
-                    Description = "Project type testing",
-                });
+                    Name = "Forestales",
+                    Description = "Proyectos forestales se centran en la gestión sostenible de bosques, abordando la conservación, la silvicultura y la biodiversidad"
+                },
+                new ProjectType
+                    {
+                        Id = 2,
+                        Name = "Energías Renovables",
+                        Description = "Estos proyectos buscan aprovechar fuentes de energía sostenibles como solar, eólica, hidroeléctrica y geotérmica"
+                    },
+                new ProjectType
+                {
+                    Id = 3,
+                    Name = "Economías Circulares",
+                    Description = "Proyectos de economía circular se enfocan en minimizar el desperdicio y maximizar la reutilización de recursos. Esto implica diseñar productos con ciclos de vida más largos, reciclar materiales y crear sistemas donde los desechos se convierten en insumos para otros procesos"
+                },
+                new ProjectType
+                {
+                    Id = 4,
+                    Name = "Ciencia Aplicada",
+                    Description = "La ciencia aplicada se refiere a la investigación científica dirigida a resolver problemas prácticos. Proyectos en este campo buscan aplicar los conocimientos científicos para desarrollar tecnologías, productos o soluciones que tengan impacto directo en la sociedad o la industria"
+                },
+                new ProjectType
+                {
+                    Id = 5,
+                    Name = "Otros",
+                    Description = "Esta categoría es amplia y puede incluir una variedad de proyectos que no se ajustan a las categorías anteriores. Puede abarcar desde iniciativas sociales hasta innovaciones tecnológicas, dependiendo de la naturaleza específica de los proyectos incluidos en esta categoría"
+                }
+            );
         }
 }

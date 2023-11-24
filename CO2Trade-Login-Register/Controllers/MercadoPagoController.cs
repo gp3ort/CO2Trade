@@ -10,11 +10,13 @@ namespace CO2Trade_Login_Register.Controllers;
 public class MercadoPagoController : ControllerBase
 {
     private readonly IMercadoPagoService _mercadoPagoService;
+    private readonly IOperationService _operationService;
     private APIResponse _response;
 
-    public MercadoPagoController(IMercadoPagoService mercadoPagoService)
+    public MercadoPagoController(IMercadoPagoService mercadoPagoService, IOperationService operationService)
     {
         _mercadoPagoService = mercadoPagoService;
+        _operationService = operationService;
         _response = new APIResponse();
     }
 
@@ -22,6 +24,10 @@ public class MercadoPagoController : ControllerBase
     public async Task<IActionResult> ProcessPayment([FromBody] PaymentRequestDTO projectRequestDto)
     {
         _response = await _mercadoPagoService.ProcessPayment(projectRequestDto);
+        if (_response.IsSuccess)
+        {
+           await _operationService.ProcessCart(projectRequestDto.ShoppingCartRequestDto);
+        }
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 }

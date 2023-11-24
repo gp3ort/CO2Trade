@@ -22,138 +22,6 @@ namespace CO2Trade_Login_Register.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.Bill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("GrossTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("IdOperacion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTaxCondition")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTaxDocumentType")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("NetTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("OperationDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdOperacion");
-
-                    b.HasIndex("IdTaxCondition");
-
-                    b.HasIndex("IdTaxDocumentType");
-
-                    b.ToTable("Bills");
-                });
-
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.TaxCondition", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TaxRate")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TaxConditions");
-                });
-
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.TaxDocumentType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TaxDocumentTypes");
-                });
-
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Documents.Document", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Documents");
-                });
-
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Documents.DocumentType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DocumentTypes");
-                });
-
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Documents.EntityDocument", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("IdDocument")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdEntidad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdDocument");
-
-                    b.HasIndex("IdEntidad");
-
-                    b.ToTable("EntityDocuments");
-                });
-
             modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityType", b =>
                 {
                     b.Property<int>("Id")
@@ -198,6 +66,9 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<string>("BusinessName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("CO2Measure")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -312,43 +183,6 @@ namespace CO2Trade_Login_Register.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.GeneralSettings.Configuration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Currency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdLogo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Ip")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PlatformName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("puerto")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdLogo");
-
-                    b.ToTable("Configurations");
-                });
-
             modelBuilder.Entity("CO2Trade_Login_Register.Models.GeneralSettings.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -386,7 +220,11 @@ namespace CO2Trade_Login_Register.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Co2E")
+                    b.Property<string>("BusinessName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("CO2Measure")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("DateTime")
@@ -441,7 +279,7 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("Certificates");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Operation", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.OperationCertificate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -468,7 +306,42 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasIndex("IdEntityUser");
 
-                    b.ToTable("Operations");
+                    b.ToTable("OperationsCertificates");
+                });
+
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Purchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IdEntityUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdProject")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdShoppingCart")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Revenue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Purchases");
                 });
 
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.ShoppingCart", b =>
@@ -533,20 +406,17 @@ namespace CO2Trade_Login_Register.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("IdOperation")
-                        .HasColumnType("int");
+                    b.Property<string>("IdEntityUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdProject")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProjectId")
+                    b.Property<int>("IdShoppingCart")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdOperation");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("OperationProjects");
                 });
@@ -563,13 +433,10 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EntityUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("IdImage")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdProjectType")
+                    b.Property<int>("IdProjectType")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -579,15 +446,13 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<bool>("Sold")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("TonsOfOxygen")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("sold")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityUserId");
 
                     b.HasIndex("IdImage");
 
@@ -604,8 +469,8 @@ namespace CO2Trade_Login_Register.Migrations
                             IdProjectType = 1,
                             Name = "Project for TEST",
                             Price = 25m,
-                            TonsOfOxygen = 25m,
-                            sold = false
+                            Sold = false,
+                            TonsOfOxygen = 25m
                         });
                 });
 
@@ -621,6 +486,10 @@ namespace CO2Trade_Login_Register.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("ProjectTypes");
@@ -629,7 +498,32 @@ namespace CO2Trade_Login_Register.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Project type testing"
+                            Description = "Proyectos forestales se centran en la gestión sostenible de bosques, abordando la conservación, la silvicultura y la biodiversidad",
+                            Name = "Forestales"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Estos proyectos buscan aprovechar fuentes de energía sostenibles como solar, eólica, hidroeléctrica y geotérmica",
+                            Name = "Energías Renovables"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Proyectos de economía circular se enfocan en minimizar el desperdicio y maximizar la reutilización de recursos. Esto implica diseñar productos con ciclos de vida más largos, reciclar materiales y crear sistemas donde los desechos se convierten en insumos para otros procesos",
+                            Name = "Economías Circulares"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "La ciencia aplicada se refiere a la investigación científica dirigida a resolver problemas prácticos. Proyectos en este campo buscan aplicar los conocimientos científicos para desarrollar tecnologías, productos o soluciones que tengan impacto directo en la sociedad o la industria",
+                            Name = "Ciencia Aplicada"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Esta categoría es amplia y puede incluir una variedad de proyectos que no se ajustan a las categorías anteriores. Puede abarcar desde iniciativas sociales hasta innovaciones tecnológicas, dependiendo de la naturaleza específica de los proyectos incluidos en esta categoría",
+                            Name = "Otros"
                         });
                 });
 
@@ -766,52 +660,6 @@ namespace CO2Trade_Login_Register.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Billing.Bill", b =>
-                {
-                    b.HasOne("CO2Trade_Login_Register.Models.Operations.Operation", "Operation")
-                        .WithMany()
-                        .HasForeignKey("IdOperacion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CO2Trade_Login_Register.Models.Billing.TaxCondition", "TaxCondition")
-                        .WithMany()
-                        .HasForeignKey("IdTaxCondition")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CO2Trade_Login_Register.Models.Billing.TaxDocumentType", "TaxDocumentType")
-                        .WithMany()
-                        .HasForeignKey("IdTaxDocumentType")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Operation");
-
-                    b.Navigation("TaxCondition");
-
-                    b.Navigation("TaxDocumentType");
-                });
-
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Documents.EntityDocument", b =>
-                {
-                    b.HasOne("CO2Trade_Login_Register.Models.Documents.Document", "Document")
-                        .WithMany()
-                        .HasForeignKey("IdDocument")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", "EntityUser")
-                        .WithMany()
-                        .HasForeignKey("IdEntidad")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Document");
-
-                    b.Navigation("EntityUser");
-                });
-
             modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", b =>
                 {
                     b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityType", "EntityType")
@@ -831,17 +679,6 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("Rol");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.GeneralSettings.Configuration", b =>
-                {
-                    b.HasOne("CO2Trade_Login_Register.Models.GeneralSettings.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("IdLogo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
-                });
-
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Measure.MeasureCO2", b =>
                 {
                     b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", "EntityUser")
@@ -853,7 +690,7 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("EntityUser");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.Operation", b =>
+            modelBuilder.Entity("CO2Trade_Login_Register.Models.Operations.OperationCertificate", b =>
                 {
                     b.HasOne("CO2Trade_Login_Register.Models.Operations.Certificate", "Certificate")
                         .WithMany()
@@ -910,29 +747,8 @@ namespace CO2Trade_Login_Register.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.OperationProject", b =>
-                {
-                    b.HasOne("CO2Trade_Login_Register.Models.Operations.Operation", "Operation")
-                        .WithMany()
-                        .HasForeignKey("IdOperation")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CO2Trade_Login_Register.Models.Projects.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
-
-                    b.Navigation("Operation");
-
-                    b.Navigation("Project");
-                });
-
             modelBuilder.Entity("CO2Trade_Login_Register.Models.Projects.Project", b =>
                 {
-                    b.HasOne("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", null)
-                        .WithMany("Projects")
-                        .HasForeignKey("EntityUserId");
-
                     b.HasOne("CO2Trade_Login_Register.Models.GeneralSettings.Image", "Image")
                         .WithMany()
                         .HasForeignKey("IdImage")
@@ -941,7 +757,9 @@ namespace CO2Trade_Login_Register.Migrations
 
                     b.HasOne("CO2Trade_Login_Register.Models.Projects.ProjectType", "ProjectType")
                         .WithMany()
-                        .HasForeignKey("IdProjectType");
+                        .HasForeignKey("IdProjectType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Image");
 
@@ -997,11 +815,6 @@ namespace CO2Trade_Login_Register.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CO2Trade_Login_Register.Models.EntitiesUser.EntityUser", b =>
-                {
-                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

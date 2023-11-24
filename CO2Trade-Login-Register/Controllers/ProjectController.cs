@@ -31,6 +31,13 @@ public class ProjectController : ControllerBase
         _response = await _projectService.GetAllProjects();
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
+    
+    [HttpGet("getAvailableProjects")]
+    public async Task<IActionResult> GetAvailableProjects()
+    {
+        _response = await _projectService.GetAllAvailableProjects();
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
 
     [HttpGet("getProject")]
     public async Task<IActionResult> GetProject(int id)
@@ -47,9 +54,16 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPut("updateProject")]
-    public async Task<IActionResult> UpdateProject([FromBody] ProjectRequestDTO projectRequestDto)
+    public async Task<IActionResult> UpdateProject([FromBody] ProjectUpdateRequestDto projectRequestDto)
     {
         _response = await _projectService.UpdateProject(projectRequestDto);
+        return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
+    }
+
+    [HttpPost("filterProjects")]
+    public async Task<IActionResult> FilterProjects([FromBody] FilterRequestDto filterRequestDto)
+    {
+        _response = await _projectService.FilterProjects(filterRequestDto);
         return _response.IsSuccess ? Ok(_response) : BadRequest(_response);
     }
 }

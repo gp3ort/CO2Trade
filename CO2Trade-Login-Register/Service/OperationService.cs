@@ -17,18 +17,21 @@ public class OperationService : IOperationService
     private readonly IProjectRepository _projectRepository;
     private readonly IEntityUserRepository _entityUserRepo;
     private readonly IEntityProjectRepository _entityProjectRepository;
+    private readonly IPurchaseRepository _purchaseRepository;
     
     private readonly IMapper _mapper;
     private APIResponse _response;
 
 
     public OperationService(IOperationRepository operationRepository, IProjectRepository projectRepository, 
-        IEntityUserRepository entityUserRepository, IMapper mapper, IEntityProjectRepository entityProjectRepository)
+        IEntityUserRepository entityUserRepository, IMapper mapper, IEntityProjectRepository entityProjectRepository,
+        IPurchaseRepository purchaseRepository)
     {
         _operationRepository = operationRepository;
         _projectRepository = projectRepository;
         _entityUserRepo = entityUserRepository;
         _entityProjectRepository = entityProjectRepository;
+        _purchaseRepository = purchaseRepository;
         _response = new();
         _mapper = mapper;
     }
@@ -51,8 +54,8 @@ public class OperationService : IOperationService
                 
             }
             
-            Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartRequest.IdProject);
-            if (project.sold)
+            Project project = await _projectRepository.GetAsync(shoppingCartRequest.IdProject);
+            if (project.Sold)
             {
                 _response.IsSuccess = false;
                 _response.StatusCode = HttpStatusCode.BadRequest;
@@ -94,7 +97,7 @@ public class OperationService : IOperationService
             {
                 if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
                 {
-                    Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartExist.IdProject);
+                    Project project = await _projectRepository.GetAsync(shoppingCartExist.IdProject);
                     shoppingCartExist.Project = project;
                     shoppingCartExist.Canceled = true;
                    await _operationRepository.Update(shoppingCartExist);
@@ -127,18 +130,46 @@ public class OperationService : IOperationService
             {
                 if (shoppingCartExist.Canceled == false && shoppingCartExist.Processed == false)
                 {
-                    Project project = await _projectRepository.GetAsync(x => x.Id == shoppingCartExist.IdProject);
+                    Project project = await _projectRepository.GetAsync(shoppingCartExist.IdProject);
+                    EntityUser entityUser =
+                        await _entityUserRepo.GetAsync(x => x.Id == shoppingCartRequest.IdEntityUser);
                     shoppingCartExist.Processed = true;
                     shoppingCartExist.Project = project;
-                    project.sold = true;
+                    project.Sold = true;
                     await _projectRepository.Update(project);
                     await _operationRepository.Update(shoppingCartExist);
+                    _operationRepository.CreateOperationProject(shoppingCartExist.Id, shoppingCartExist.IdProject,
+                        shoppingCartExist.IdEntityUser);
+
+                    Purchase purchase = new Purchase()
+                    {
+                        IdEntityUser = shoppingCartExist.IdEntityUser,
+                        IdShoppingCart = shoppingCartExist.Id,
+                        IdProject = shoppingCartExist.IdProject,
+                        Total = project.Price,
+                        DateTime = DateTime.Now,
+                        OrderNumber = shoppingCartExist.Id
+                    };
+                    
+                    if (entityUser.CO2Measure - project.TonsOfOxygen >= 0)
+                    {
+                        entityUser.CO2Measure -= project.TonsOfOxygen;
+                    }
+                    else
+                    {
+                        purchase.Revenue = Math.Abs(entityUser.CO2Measure - project.TonsOfOxygen);
+                        entityUser.CO2Measure = 0;
+                    }
+                    await _purchaseRepository.CreateAsync(purchase);
+                    await _entityUserRepo.Update(entityUser);
                     EntityProject entityProject = new EntityProject();
                     entityProject.IdProject = shoppingCartRequest.IdProject;
                     entityProject.IdEntityUser = shoppingCartRequest.IdEntityUser;
                     entityProject.Project = project;
                     entityProject.EntityUser = await _entityUserRepo.GetAsync(x => x.Id == shoppingCartRequest.IdEntityUser);
                     await _entityProjectRepository.CreateAsync(entityProject);
+                    
+                    
                     _response.StatusCode = HttpStatusCode.OK;
                     _response.IsSuccess = true;
                     _response.Result = entityProject;
@@ -157,6 +188,5 @@ public class OperationService : IOperationService
             _response.ErrorMessage.Add(e.Message);
             return _response;
         }
-    }    
-    
+    }
 }
