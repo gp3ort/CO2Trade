@@ -44,6 +44,9 @@ Método Adicional:
 
 - BuildBadRequestApiResponse: Construye una respuesta de error estándar.
 
+<img width="1256" alt="Captura de Pantalla 2023-11-29 a la(s) 09 28 15" src="https://github.com/gp3ort/CO2Trade/assets/101581586/1453a7e8-c05c-4f30-810d-85e89a869410">
+
+
 ### ProjectController
 
 Gestiona operaciones relacionadas con proyectos.
@@ -66,6 +69,9 @@ Constructor:
 
 - Recibe un servicio de proyectos (IProjectService) como dependencia.
 
+<img width="1255" alt="Captura de Pantalla 2023-11-29 a la(s) 08 56 51" src="https://github.com/gp3ort/CO2Trade/assets/101581586/02f16d9f-4d5e-4bb6-86d4-321f2a433f78">
+
+
 ### EntityUsersController
 
 Gestiona operaciones relacionadas con usuarios de la entidad.
@@ -87,6 +93,9 @@ Constructor:
 
 Recibe un servicio de usuarios de entidad (IEntityUserService) como dependencia.
 
+<img width="1255" alt="Captura de Pantalla 2023-11-29 a la(s) 09 42 43" src="https://github.com/gp3ort/CO2Trade/assets/101581586/cd30cabc-1152-42b1-97db-3947077a1dc3">
+
+
 ### MercadoPagoController
 
 Gestiona operaciones de pago utilizando Mercado Pago.
@@ -103,6 +112,9 @@ Dependencias:
 Constructor:
 
 Recibe servicios de Mercado Pago (IMercadoPagoService) y operaciones (IOperationService) como dependencias.
+
+<img width="1257" alt="Captura de Pantalla 2023-11-29 a la(s) 09 24 16" src="https://github.com/gp3ort/CO2Trade/assets/101581586/04b57307-41d2-48fa-a2ce-0b730e5bf223">
+
 
 ### OperationController
 
@@ -121,3 +133,6 @@ Dependencias:
 Constructor:
 
 - Recibe un servicio de operaciones (IOperationService) como dependencia.
+
+<img width="1251" alt="Captura de Pantalla 2023-11-29 a la(s) 09 20 27" src="https://github.com/gp3ort/CO2Trade/assets/101581586/b1a65af2-070b-4238-a235-2764d9308ec3">
+
